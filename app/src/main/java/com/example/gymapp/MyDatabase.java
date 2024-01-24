@@ -15,12 +15,12 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import java.util.List;
 
-@Database(entities = {Profile.class, Exercises.class, Workout.class}, version = 1, exportSchema = false)
+@Database(entities = {Split.class, Exercises.class, Workout.class}, version = 1, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class MyDatabase extends RoomDatabase {
-    public abstract ProfileDao profileDao();
     public abstract ExercisesDao exercisesDao();
     public abstract WorkoutDao workoutDao();
+    public  abstract SplitDao splitDao();
 
 
 

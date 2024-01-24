@@ -59,6 +59,17 @@ public class Converters {
         return gson.toJson(list);
     }
 
+    @TypeConverter
+    public static List<Routines> fromStringToRoutinesList(String value) {
+        Type listType = new TypeToken<List<Routines>>() {}.getType();
+        return new Gson().fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String fromRoutinesListToString(List<Routines> list) {
+        Gson gson = new Gson();
+        return gson.toJson(list);
+    }
 
 
 
