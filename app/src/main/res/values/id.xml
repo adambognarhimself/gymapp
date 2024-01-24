@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item
+        type="id"
+        name="splitNamee" />
+    <item
+        type="id"
+        name="routineName" />
+    <item
+        type="id"
+        name="exerciseName" />
+</resources>

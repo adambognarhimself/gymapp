@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"
-    android:background="#7B7B7B">
+    tools:context=".ui.home.HomeFragment">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/splitButton"
@@ -117,8 +116,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@drawable/button"
-            android:gravity="center">
+            android:gravity="center"
+            >
 
             <androidx.cardview.widget.CardView
                 android:layout_width="190dp"
@@ -158,8 +157,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/spinner"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@drawable/spinner">
 
                     <TextView
                         android:id="@+id/textView4"

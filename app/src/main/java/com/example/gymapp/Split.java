@@ -7,10 +7,36 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
+@Entity(tableName = "Split")
 public class Split {
+
+    @PrimaryKey(autoGenerate = true)
+    int id;
+    @ColumnInfo(name = "name")
     private String name;
+
+
+
+    @ColumnInfo(name = "routines")
     private List<Routines> routinesList;
 
+
+
+
+    @Ignore
+    public Split(){
+
+    }
+    public Split(int id, String name, List<Routines> routinesList) {
+        this.id = id;
+        this.name = name;
+        this.routinesList = routinesList;
+    }
+    @Ignore
+    public Split(String name, List<Routines> routinesList) {
+        this.name = name;
+        this.routinesList = routinesList;
+    }
 
     public String getName() {
         return name;
