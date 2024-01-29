@@ -1,14 +1,21 @@
 package com.example.gymapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,13 +28,21 @@ import androidx.room.Room;
 import com.example.gymapp.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private RecyclerView recyclerView;
     private ArrayList<Workout> workoutList;
+
+    MyDatabase db;
+
+    Button getSplitButton;
 
 
     Button splitButton;
@@ -51,42 +66,21 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
 
-        MyDatabase db = Room.databaseBuilder(getApplicationContext(),MyDatabase.class, "gym").build();
-
-
-//      recyclerView = findViewById(R.id.recView);
-//
-//        workoutList = new ArrayList<>();
-//
-//        workoutList.add(new Workout(10,"kecske",null,null));
-//        workoutList.add(new Workout(10,"pacos",null,null));
-//        workoutList.add(new Workout(10,"répa",null,null));
-//        workoutList.add(new Workout(10,"malac",null,null));workoutList.add(new Workout(10,"kecske",null,null));
-//        workoutList.add(new Workout(10,"pacos",null,null));
-//        workoutList.add(new Workout(10,"répa",null,null));
-//        workoutList.add(new Workout(10,"malac",null,null));workoutList.add(new Workout(10,"kecske",null,null));
-//        workoutList.add(new Workout(10,"pacos",null,null));
-//        workoutList.add(new Workout(10,"répa",null,null));
-//        workoutList.add(new Workout(10,"malac",null,null));
-//
-//        RecyclerViewAdapter adapter = new RecyclerViewAdapter(workoutList,this);
-//        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
-//
-//        recyclerView.setLayoutManager(layoutManager);
-//       recyclerView.setAdapter(adapter);
-
-//        String[] textArray = {"One", "Two", "Three", "Four"};
-//        LinearLayout linearLayout = new LinearLayout(this);
-//        setContentView(linearLayout);
-//        linearLayout.setOrientation(LinearLayout.VERTICAL);
-//        for( int i = 0; i < textArray.length; i++ )
-//        {
-//            TextView textView = new TextView(this);
-//            textView.setText(textArray[i]);
-//            linearLayout.addView(textView);
-//        }
-
+        db = MyDatabase.getINSTANCE(this.getApplicationContext());
         splitButton = findViewById(R.id.splitButton);
+
+
+      recyclerView = findViewById(R.id.recView);
+    workoutList = new ArrayList<>();
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(workoutList,this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+
+        recyclerView.setLayoutManager(layoutManager);
+       recyclerView.setAdapter(adapter);
+
+
+
+
         splitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,5 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+
 
 }

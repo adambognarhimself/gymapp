@@ -38,6 +38,11 @@ public class Split {
         this.routinesList = routinesList;
     }
 
+    @Ignore
+    public Split(String name){
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

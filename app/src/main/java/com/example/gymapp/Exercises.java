@@ -15,11 +15,12 @@ public class Exercises {
     @ColumnInfo(name = "name")
     private String name;
 
-    @Ignore
+
     public Exercises(int id, String name) {
         this.id = id;
         this.name = name;
     }
+    @Ignore
     public Exercises(String name){
         this.name = name;
     }
@@ -32,11 +33,11 @@ public class Exercises {
     public void setName(String name) {
         this.name = name;
     }
-
+    @Ignore
     public int getId() {
         return id;
     }
-
+    @Ignore
     public void setId(int id) {
         this.id = id;
     }

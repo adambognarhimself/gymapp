@@ -37,26 +37,27 @@ public class Workout {
         this.exercises = exercises;
         this.date = date;
     }
-
+    @Ignore
     public int getId() {
         return id;
     }
-
+    @Ignore
     public void setId(int id) {
         this.id = id;
     }
-
+    @Ignore
     public String getDesc() {
         return desc;
     }
-
+    @Ignore
     public void setDesc(String desc) {
         this.desc = desc;
     }
+    @Ignore
     public int getDuration() {
         return duration;
     }
-
+    @Ignore
     public void setDuration(int duration) {
         this.duration = duration;
     }
