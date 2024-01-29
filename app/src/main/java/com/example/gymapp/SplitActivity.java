@@ -6,53 +6,135 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplitActivity extends AppCompatActivity {
+public class SplitActivity extends AppCompatActivity implements SplitListener{
 
     RecyclerView recyclerView;
+    ImageButton back, add;
+    Button save;
+
+    Dialog dialog;
+    SplitAdapter adapter;
+
+    MyDatabase db;
+
+    List<Split> data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_split);
 
-        LinearLayout linearLayout = getLayoutInflater().inflate(R.layout.splitcard_layout,null).findViewById(R.id.splitLayout);
+        db = MyDatabase.getINSTANCE(this.getApplicationContext());
+        data = db.splitDao().getall();
 
-        ArrayList<Split> ls = new ArrayList<>();
-        List<Routines> l2 = new ArrayList<>();
-        List<Exercises> l3 = new ArrayList<>();
-        List<Exercises> l4 = new ArrayList<>();
+       back = findViewById(R.id.splitBackButton);
 
-        l3.add(new Exercises("egy"));
-        l4.add(new Exercises("2"));
-        l3.add(new Exercises("3"));
-        l3.add(new Exercises("4"));
-        l4.add(new Exercises("5"));
-        l3.add(new Exercises("6"));
-        l3.add(new Exercises("7"));
-        l4.add(new Exercises("8"));
+      back.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              finish();
+          }
+      });
 
-        l2.add(new Routines("r1",l3));
-        l2.add((new Routines("r2",l4)));
-        ls.add(new Split("s1", l2));
+    setUpRecyclerview();
+      showDialog();
 
 
+      add = findViewById(R.id.splitAddButton);
+      add.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              dialog.show();
+          }
+      });
+
+      save = dialog.findViewById(R.id.addNameButton);
+
+      save.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            addNewSplit();
+              recreate();
+          }
+      });
 
 
+    }
+
+    private void openRoutinesActivity() {
+    }
+
+    void setUpRecyclerview()  {
         recyclerView = findViewById(R.id.splitRec);
-
-       SplitAdapter adapter = new SplitAdapter(ls,this);
+        adapter = new SplitAdapter(data,this,this);
         GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
 
-       recyclerView.setLayoutManager(layoutManager);
-      recyclerView.setAdapter(adapter);
+    void showDialog(){
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.add_dialog);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+    }
+    public void addNewSplit(){
+        EditText text = dialog.findViewById(R.id.saveNameText);
 
+        for (Split item: data) {
+            if(item.getName().equals(text.getText().toString())) {
+                Toast.makeText(this, "Name already exists!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                text.setText("");
+                return;
+            }
+        }
+        Split added = new Split(text.getText().toString());
+        data.add(added);
+        db.splitDao().insertSplit(added);
+        dialog.dismiss();
+        adapter.notifyItemInserted(data.indexOf(added));
+        text.setText("");
+
+    }
+
+    @Override
+    public void editButton(Split split) {
+        Toast.makeText(this,"Clicked position: " + data.indexOf(split),Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void deleteButton(Split split) {
+        Toast.makeText(this,"Pressed delete",Toast.LENGTH_SHORT).show();
+        db.splitDao().deleteSplit(split);
+        int index = data.indexOf(split);
+        data.remove(split);
+        adapter.notifyItemRemoved(index);
+
+    }
+
+    @Override
+    public void selectButton(Split split) {
+
+
+        finish();
     }
 }
 

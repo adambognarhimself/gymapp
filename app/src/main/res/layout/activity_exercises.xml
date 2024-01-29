@@ -9,7 +9,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/exeCard"
         android:layout_width="409dp"
         android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,10 +20,10 @@
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/exeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Splits"
+            android:text="Exercises"
             tools:layout_editor_absoluteX="65dp"
             tools:layout_editor_absoluteY="100dp"
             android:layout_gravity="center"
@@ -31,7 +31,7 @@
             android:textColor="@color/white"/>
 
         <ImageButton
-            android:id="@+id/splitAddButton"
+            android:id="@+id/exeAddButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:text="Button"
@@ -44,7 +44,7 @@
             android:background="@android:color/transparent"/>
 
         <ImageButton
-            android:id="@+id/splitBackButton"
+            android:id="@+id/exeBackButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:text="Button"
@@ -57,16 +57,18 @@
             android:background="@android:color/transparent"/>
 
 
+
+
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/splitRec"
+        android:id="@+id/routineRec"
         android:layout_width="409dp"
         android:layout_height="681dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView2"/>
+        app:layout_constraintTop_toBottomOf="@id/exeCard"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
