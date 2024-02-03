@@ -38,22 +38,15 @@
 
 
             <ImageButton
-                android:id="@+id/editButton"
+                android:id="@+id/editDataButton"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:src="@drawable/baseline_create_24"
                 android:background="@android:color/transparent"/>
-            <ImageButton
-                android:id="@+id/selectSplitButton"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/baseline_done_24"
-                android:background="@android:color/transparent"/>
 
             <ImageButton
-                android:id="@+id/deleteButton"
+                android:id="@+id/deleteDataButton"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_weight="1"

@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RecyclerViewHolder> {
+public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.RecyclerViewHolder> {
 
-    private List<Routines> courseDataArrayList;
+    private List<Exercises> courseDataArrayList;
     private Context mcontext;
 
-    private RoutineListener routineListener;
+    private ExerciseListener routineListener;
 
-    public RoutineAdapter(List<Routines> routines, Context mcontext,RoutineListener listener) {
-        this.courseDataArrayList = routines;
+    public ExerciseAdapter(List<Exercises> exercises, Context mcontext,ExerciseListener listener) {
+        this.courseDataArrayList = exercises;
         this.mcontext = mcontext;
         this.routineListener = listener;
     }
@@ -37,20 +37,13 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.Recycler
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         // Set the data to textview
-        Routines recyclerData = courseDataArrayList.get(position);
+        Exercises recyclerData = courseDataArrayList.get(position);
         holder.splitName.setText(recyclerData.getName());
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 routineListener.deleteButton(recyclerData);
-            }
-        });
-
-        holder.edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                routineListener.editButton(recyclerData);
             }
         });
 
@@ -68,14 +61,13 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.Recycler
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         private TextView splitName;
-        private ImageButton delete,edit;
+        private ImageButton delete;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             splitName = itemView.findViewById(R.id.splitNameText);
 
             delete=itemView.findViewById(R.id.deleteDataButton);
-            edit = itemView.findViewById(R.id.editDataButton);
 
 
         }

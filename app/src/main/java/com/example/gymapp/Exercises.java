@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.time.LocalDate;
+
 @Entity(tableName = "Exercises")
 public class Exercises {
 
@@ -14,11 +16,20 @@ public class Exercises {
     int id;
     @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name ="date")
+    private LocalDate date;
 
 
-    public Exercises(int id, String name) {
+    public Exercises(int id, String name,LocalDate date) {
         this.id = id;
         this.name = name;
+        this.date = date;
+    }
+
+    @Ignore
+    public Exercises(String name,LocalDate date){
+        this.name = name;
+        this.date = date;
     }
     @Ignore
     public Exercises(String name){
@@ -40,6 +51,14 @@ public class Exercises {
     @Ignore
     public void setId(int id) {
         this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
 }

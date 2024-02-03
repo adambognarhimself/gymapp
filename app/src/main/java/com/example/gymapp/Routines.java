@@ -18,6 +18,10 @@ public class Routines {
         this.listOfExercises = listOfExercises;
     }
 
+    public Routines(String name){
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
