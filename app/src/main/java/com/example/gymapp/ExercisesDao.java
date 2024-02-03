@@ -19,4 +19,7 @@ public interface ExercisesDao {
 
     @Delete
     void deleteExercises(Exercises exercises);
+
+    @Query("SELECT * FROM Exercises")
+    List<Exercises> getall();
 }

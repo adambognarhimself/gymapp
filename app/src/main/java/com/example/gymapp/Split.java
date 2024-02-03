@@ -14,12 +14,10 @@ public class Split {
     int id;
     @ColumnInfo(name = "name")
     private String name;
-
-
-
     @ColumnInfo(name = "routines")
     private List<Routines> routinesList;
-
+    @ColumnInfo(name ="displayed")
+    private boolean displayed;
 
 
 
@@ -27,20 +25,31 @@ public class Split {
     public Split(){
 
     }
-    public Split(int id, String name, List<Routines> routinesList) {
+    @Ignore
+    public Split(int id, String name, List<Routines> routinesList,boolean displayed) {
         this.id = id;
         this.name = name;
         this.routinesList = routinesList;
+        this.displayed = displayed;
     }
-    @Ignore
+
     public Split(String name, List<Routines> routinesList) {
         this.name = name;
         this.routinesList = routinesList;
+        this.displayed = false;
     }
+    @Ignore
+    public Split(String name, List<Routines> routinesList,boolean displayed) {
+        this.name = name;
+        this.routinesList = routinesList;
+        this.displayed = displayed;
+    }
+
 
     @Ignore
     public Split(String name){
         this.name = name;
+        this.displayed = false;
     }
 
     public String getName() {
@@ -58,4 +67,13 @@ public class Split {
     public void setRoutinesList(List<Routines> routinesList) {
         this.routinesList = routinesList;
     }
+
+    public boolean isDisplayed() {
+        return displayed;
+    }
+
+    public void setDisplayed(boolean displayed) {
+        this.displayed = displayed;
+    }
+
 }

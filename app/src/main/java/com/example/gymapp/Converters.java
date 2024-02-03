@@ -71,6 +71,20 @@ public class Converters {
         return gson.toJson(list);
     }
 
+    @TypeConverter
+    public static Split fromStringToSplit(String value) {
+        Type listType = new TypeToken<Split>() {}.getType();
+        return new Gson().fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String fromSplitToString(Split split) {
+        Gson gson = new Gson();
+        return gson.toJson(split);
+    }
+
+
+
 
 
 }

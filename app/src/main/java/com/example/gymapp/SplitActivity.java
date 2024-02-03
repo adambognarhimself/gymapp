@@ -1,27 +1,18 @@
 package com.example.gymapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SplitActivity extends AppCompatActivity implements SplitListener{
@@ -54,7 +45,7 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
       });
 
     setUpRecyclerview();
-      showDialog();
+      createDialog();
 
 
       add = findViewById(R.id.splitAddButton);
@@ -78,7 +69,10 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
 
     }
 
-    private void openRoutinesActivity() {
+    private void openRoutinesActivity(Split split) {
+        Intent intent = new Intent(this, RoutinesActivity.class);
+        intent.putExtra("split", split.getName());
+        startActivity(intent);
     }
 
     void setUpRecyclerview()  {
@@ -89,7 +83,7 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
         recyclerView.setAdapter(adapter);
     }
 
-    void showDialog(){
+    void createDialog(){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_dialog);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -112,28 +106,26 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
         dialog.dismiss();
         adapter.notifyItemInserted(data.indexOf(added));
         text.setText("");
-
     }
 
     @Override
     public void editButton(Split split) {
-        Toast.makeText(this,"Clicked position: " + data.indexOf(split),Toast.LENGTH_SHORT).show();
+        openRoutinesActivity(split);
     }
 
     @Override
     public void deleteButton(Split split) {
-        Toast.makeText(this,"Pressed delete",Toast.LENGTH_SHORT).show();
         db.splitDao().deleteSplit(split);
         int index = data.indexOf(split);
         data.remove(split);
         adapter.notifyItemRemoved(index);
-
     }
 
     @Override
     public void selectButton(Split split) {
-
-
+        for (Split item:db.splitDao().getall()) {
+            db.splitDao().updateDisplayed(item.getName().equals(split.getName()),item.getName());
+        }
         finish();
     }
 }

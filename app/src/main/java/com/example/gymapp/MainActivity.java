@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         db = MyDatabase.getINSTANCE(this.getApplicationContext());
         splitButton = findViewById(R.id.splitButton);
 
+        setCurrentSplit();
+
+
 
       recyclerView = findViewById(R.id.recView);
     workoutList = new ArrayList<>();
@@ -95,8 +98,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SplitActivity.class);
 
         startActivity(intent);
+
     }
 
+    public void setCurrentSplit(){
+        for (Split item:db.splitDao().getall()) {
+            if(item.isDisplayed()){
+                splitButton.setText("CURRENT SPLIT: " + item.getName());
+                break;
+            }
+        }
+    }
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setCurrentSplit();
+    }
 }
