@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         db = MyDatabase.getINSTANCE(this.getApplicationContext());
         splitButton = findViewById(R.id.splitButton);
 
+
+
         setCurrentSplit();
 
 
