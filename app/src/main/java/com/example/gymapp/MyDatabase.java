@@ -22,7 +22,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import java.security.PrivateKey;
 import java.util.List;
 
-@Database(entities = {Split.class, Exercises.class, Workout.class}, version = 1,exportSchema = false)
+@Database(entities = {Split.class, Exercises.class, Workout.class}, version = 2,exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract ExercisesDao exercisesDao();

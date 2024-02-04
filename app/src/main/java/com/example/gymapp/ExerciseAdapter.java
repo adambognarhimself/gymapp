@@ -30,7 +30,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Recycl
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate Layout
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rou_exe_card_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exe_layout, parent, false);
         return new RecyclerViewHolder(view);
     }
 
