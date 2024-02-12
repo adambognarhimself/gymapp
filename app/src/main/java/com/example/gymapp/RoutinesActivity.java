@@ -93,7 +93,7 @@ public class RoutinesActivity extends AppCompatActivity implements RoutineListen
         EditText text = dialog.findViewById(R.id.saveNameText);
 
         for (Routines item: dataList) {
-            if(item.getName().equals(text.getText().toString())) {
+            if(item.getName().equalsIgnoreCase(text.getText().toString())) {
                 Toast.makeText(this, "Name already exists!", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 text.setText("");
@@ -121,6 +121,7 @@ public class RoutinesActivity extends AppCompatActivity implements RoutineListen
     @Override
     public void editButton(Routines routine) {
         Intent intent = new Intent(this, ExercisesActivity.class);
+        //we put this data to the next activity for usage
         intent.putExtra("split", splitName);
         intent.putExtra("routine",routine.getName());
         startActivity(intent);

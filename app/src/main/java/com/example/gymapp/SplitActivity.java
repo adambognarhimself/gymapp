@@ -84,6 +84,7 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
     }
 
     void createDialog(){
+        //The setup of the little popup window-
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_dialog);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -93,7 +94,8 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
         EditText text = dialog.findViewById(R.id.saveNameText);
 
         for (Split item: data) {
-            if(item.getName().equals(text.getText().toString())) {
+            if(item.getName().equalsIgnoreCase(text.getText().toString())) {
+                //If it already exists in the db it will not be added
                 Toast.makeText(this, "Name already exists!", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 text.setText("");
@@ -123,6 +125,7 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
 
     @Override
     public void selectButton(Split split) {
+        //We select what will be shown on the main screen
         for (Split item:db.splitDao().getall()) {
             db.splitDao().updateDisplayed(item.getName().equals(split.getName()),item.getName());
         }
