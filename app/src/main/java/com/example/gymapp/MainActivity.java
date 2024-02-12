@@ -70,41 +70,13 @@ public class MainActivity extends AppCompatActivity {
         splitButton = findViewById(R.id.splitButton);
 
 
-
-        setCurrentSplit();
-
-
-
-      recyclerView = findViewById(R.id.recView);
-    workoutList = new ArrayList<>();
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(workoutList,this);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
-
-        recyclerView.setLayoutManager(layoutManager);
-       recyclerView.setAdapter(adapter);
-
-
-
-
-        splitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               openSplitActivity();
-            }
-        });
-
-
     }
 
-    public void openSplitActivity(){
-        Intent intent = new Intent(this, SplitActivity.class);
-
-        startActivity(intent);
-
-    }
 
     public void setCurrentSplit(){
+        //Get all the data
         for (Split item:db.splitDao().getall()) {
+            //If isdisplayed is true itt will be seen on the main screen
             if(item.isDisplayed()){
                 splitButton.setText("CURRENT SPLIT: " + item.getName());
                 break;

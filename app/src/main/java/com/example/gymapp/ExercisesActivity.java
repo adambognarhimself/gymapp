@@ -62,6 +62,8 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
         splitName = bundle.getString("split");
         routineName = bundle.getString("routine");
 
+
+        //We get the correct items from the database
         for (Split item: db.splitDao().getall()) {
             if(item.getName().equals(splitName)){
                 for (Routines item2: item.getRoutinesList()) {
@@ -99,10 +101,13 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
                 return;
             }
         }
-
+        //We get the names of all exercises
         List<String> names = db.exercisesDao().getall().stream().map(x-> x.getName().toLowerCase()).collect(Collectors.toList());
         Exercises added = new Exercises(text.getText().toString());
+
+        //we check if the database already has the new name
         if(!names.contains(text.toString().toLowerCase())){
+            //if not then added
             db.exercisesDao().insertExercises(added);
         }
         dataList.add(added);
@@ -119,14 +124,17 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
         List<Routines> routines = new ArrayList<>();
 
         for (Routines item: split.getRoutinesList()) {
+            //if the current routine name doesnt equal
             if(!item.getName().equals(routine.getName())){
+                //we add it to the list
                 routines.add(item);
             }else{
+                //if it equals we update the routine with the new exercises then add it to the list
                 item.setListOfExercises(dataList);
                 routines.add(item);
             }
         }
-
+        //updates routines
         db.splitDao().updateRoutines(routines,splitName);
     }
 
