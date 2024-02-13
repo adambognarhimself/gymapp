@@ -21,7 +21,14 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.Recycler
     private RoutineListener routineListener;
 
     public RoutineAdapter(List<Routines> routines, Context mcontext,RoutineListener listener) {
-        this.courseDataArrayList = routines;
+
+        if(routines == null){
+            courseDataArrayList = new ArrayList<>();
+        }
+        else{
+            this.courseDataArrayList = routines;
+        }
+
         this.mcontext = mcontext;
         this.routineListener = listener;
     }

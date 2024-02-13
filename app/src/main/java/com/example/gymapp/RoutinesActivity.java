@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoutinesActivity extends AppCompatActivity implements RoutineListener {
@@ -52,8 +53,12 @@ public class RoutinesActivity extends AppCompatActivity implements RoutineListen
 
         for (Split item : db.splitDao().getall()) {
             if(item.getName().equals(splitName)){
+                if(item.getRoutinesList() == null){
+                    dataList = new ArrayList<>();
+                }else{
                 dataList = item.getRoutinesList();
                 break;
+                }
             }
         }
 

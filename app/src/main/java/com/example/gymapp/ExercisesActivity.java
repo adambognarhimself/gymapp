@@ -68,7 +68,12 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
             if(item.getName().equals(splitName)){
                 for (Routines item2: item.getRoutinesList()) {
                     if (item2.getName().equals(routineName)){
-                        dataList = item2.getListOfExercises();
+                        if(item2.getListOfExercises() == null){
+                            dataList = new ArrayList<>();
+                        }else{
+                            dataList = item2.getListOfExercises();
+
+                        }
                         split = item;
                         routine = item2;
                         break;
