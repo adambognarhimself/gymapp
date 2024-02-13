@@ -76,7 +76,7 @@ public class ChooseExercisesActivity extends AppCompatActivity {
                 filtered.clear();
                 for(int i = 0;i<data.size();i++){
                     //if the typed in text is contained in any exercises name it will be added to the filter and shown on screen
-                    if(data.get(i).getName().toLowerCase().trim().contains(search.getText().toString().toLowerCase())){
+                    if(data.get(i).getName().toLowerCase().trim().contains(search.getText().toString().toLowerCase()) && !search.getText().toString().equalsIgnoreCase("")){
                         String variable = search.getText().toString();
                         filtered.add(data.get(i));
                     }
@@ -84,7 +84,17 @@ public class ChooseExercisesActivity extends AppCompatActivity {
 
                 adapter.notifyDataSetChanged();
 
-                if(search.getText().toString().isEmpty()){
+                if(filtered.isEmpty()){
+                    if(search.getText().toString().isEmpty() || search.getText().toString().equalsIgnoreCase("")){
+                        add.setVisibility(View.INVISIBLE);
+                    }else{
+                        add.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    add.setVisibility(View.INVISIBLE);
+                }
+
+               /* if(search.getText().toString().isEmpty()){
                     //Toast.makeText(context,"Empty",Toast.LENGTH_SHORT).show();
                     for (Exercises item: filtered) {
                         Toast.makeText(context,item.getName(),Toast.LENGTH_SHORT).show();
@@ -97,7 +107,7 @@ public class ChooseExercisesActivity extends AppCompatActivity {
                 }
                 else{
                     add.setVisibility(View.INVISIBLE);
-                }
+                }*/
 
             }
 

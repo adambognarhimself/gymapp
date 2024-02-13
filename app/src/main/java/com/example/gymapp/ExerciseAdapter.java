@@ -21,7 +21,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Recycl
     private ExerciseListener routineListener;
 
     public ExerciseAdapter(List<Exercises> exercises, Context mcontext,ExerciseListener listener) {
+        if(exercises == null){
+            courseDataArrayList = new ArrayList<>();
+        }else{
         this.courseDataArrayList = exercises;
+        }
         this.mcontext = mcontext;
         this.routineListener = listener;
     }
