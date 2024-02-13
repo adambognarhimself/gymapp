@@ -94,20 +94,7 @@ public class ChooseExercisesActivity extends AppCompatActivity {
                     add.setVisibility(View.INVISIBLE);
                 }
 
-               /* if(search.getText().toString().isEmpty()){
-                    //Toast.makeText(context,"Empty",Toast.LENGTH_SHORT).show();
-                    for (Exercises item: filtered) {
-                        Toast.makeText(context,item.getName(),Toast.LENGTH_SHORT).show();
-                    }
-                    filtered.clear();
 
-                    if(add.getVisibility() == View.VISIBLE){
-                        add.setVisibility(View.INVISIBLE);
-                    }
-                }
-                else{
-                    add.setVisibility(View.INVISIBLE);
-                }*/
 
             }
 
