@@ -45,7 +45,7 @@ public class DashboardFragment extends Fragment {
 
         context = getContext();
 
-        timerText = root.findViewById(R.id.timerText);
+        timerText = root.findViewById(R.id.durationText);
 
         timer = new CountDownTimer(Long.MAX_VALUE,1000) {
             @Override
