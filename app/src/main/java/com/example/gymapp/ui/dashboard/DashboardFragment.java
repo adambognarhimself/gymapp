@@ -61,7 +61,6 @@ public class DashboardFragment extends Fragment {
         };
 
         startStop = root.findViewById(R.id.startStopButton);
-        startStop.setBackgroundResource(R.drawable.baseline_play_circle_24);
         startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +68,7 @@ public class DashboardFragment extends Fragment {
                 if(!timerStarted){
                     timer.start();
                     timerStarted = true;
-                    startStop.setBackgroundResource(R.drawable.baseline_stop_circle_24);
+                    startStop.setImageResource(R.drawable.baseline_stop_circle_24);
 
 
                 }
@@ -79,7 +78,7 @@ public class DashboardFragment extends Fragment {
 
                 elapsedTime = 0;
                 updateTimerText();
-                    startStop.setBackgroundResource(R.drawable.baseline_play_circle_24);
+                    startStop.setImageResource(R.drawable.baseline_play_circle_24);
 
 
                 }
