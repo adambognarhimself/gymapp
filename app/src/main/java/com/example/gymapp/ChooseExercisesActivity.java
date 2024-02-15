@@ -1,26 +1,23 @@
 package com.example.gymapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChooseExercisesActivity extends AppCompatActivity {
+public class ChooseExercisesActivity extends AppCompatActivity implements ChooseListener{
 
     ImageButton back;
 
@@ -109,7 +106,17 @@ public class ChooseExercisesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ChooseAdapter(filtered,context);
+        adapter = new ChooseAdapter(filtered,context,this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void selectButton(Exercises exercise) {
+
+        Intent intent = getIntent();
+        intent.putExtra("selected",Converters.fromExerciseToString(exercise));
+        setResult(RESULT_OK,intent);
+        finish();
+
     }
 }
