@@ -7,7 +7,6 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,9 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.gymapp.ChooseExercisesActivity;
 import com.example.gymapp.R;
 import com.example.gymapp.databinding.FragmentDashboardBinding;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class DashboardFragment extends Fragment {
 
@@ -33,7 +29,20 @@ public class DashboardFragment extends Fragment {
 
     Context context;
 
+    /*ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if(o.getResultCode() == Activity.RESULT_OK){
+                        Intent data = o.getData();
+                        String returned = data.getDataString();
 
+                        Toast.makeText(context,returned,Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            });*/
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -94,8 +103,9 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChooseExercisesActivity.class);
-
                 startActivity(intent);
+
+                //activityResultLauncher.launch(intent);
             }
         });
 

@@ -130,6 +130,10 @@ public class RoutinesActivity extends AppCompatActivity implements RoutineListen
         intent.putExtra("split", splitName);
         intent.putExtra("routine",routine.getName());
         startActivity(intent);
+
+
+
+
     }
 
     @Override

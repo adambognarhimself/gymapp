@@ -1,15 +1,14 @@
 package com.example.gymapp;
 
 import androidx.room.TypeConverter;
-import androidx.room.TypeConverters;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.lang.reflect.Type;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 
 public class Converters {
 
@@ -41,10 +40,38 @@ public class Converters {
         return new Gson().fromJson(value, listType);
     }
 
+
+
     @TypeConverter
     public static String fromSplitListToString(List<Split> list) {
         Gson gson = new Gson();
         return gson.toJson(list);
+    }
+
+    @TypeConverter
+    public static List<Exercises> fromStringToExerciseList(String value) {
+        Type listType = new TypeToken<List<Exercises>>() {}.getType();
+        return new Gson().fromJson(value, listType);
+    }
+
+
+
+    @TypeConverter
+    public static String fromExerciseListToString(List<Exercises> list) {
+        Gson gson = new Gson();
+        return gson.toJson(list);
+    }
+
+    @TypeConverter
+    public static String fromExerciseToString(Exercises item) {
+        Gson gson = new Gson();
+        return gson.toJson(item);
+    }
+
+    @TypeConverter
+    public static Exercises fromStringToExercise(String value) {
+        Type listType = new TypeToken<Exercises>() {}.getType();
+        return new Gson().fromJson(value, listType);
     }
 
     @TypeConverter
