@@ -1,12 +1,16 @@
 package com.example.gymapp;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,12 +36,17 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
     MyDatabase db;
     Button save;
 
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+
+
 
         back = findViewById(R.id.exeBackButton);
         back.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +60,7 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
+                openChooseActivity();
             }
         });
 
@@ -83,45 +92,43 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
         }
 
         setUpRecyclerview();
-        createDialog();
 
-        save = dialog.findViewById(R.id.addNameButton);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNewExercise();
-            }
-        });
+        addNewExercise();
 
  }
 
+ public void openChooseActivity(){
+        Intent intent = new Intent(this, ChooseExercisesActivity.class);
+        activityResultLauncher.launch(intent);
+ }
+
     public void addNewExercise(){
-        EditText text = dialog.findViewById(R.id.saveNameText);
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Handle the result
+                        Intent data = result.getData();
+                        if (data != null) {
+                            String returnedData = data.getStringExtra("selected");
+                            Exercises converted = Converters.fromStringToExercise(returnedData);
 
-        for (Exercises item: dataList) {
-            if(item.getName().equalsIgnoreCase(text.getText().toString())) {
-                Toast.makeText(this, "Name already exists!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                text.setText("");
-                return;
-            }
-        }
-        //We get the names of all exercises
-        List<String> names = db.exercisesDao().getall().stream().map(x-> x.getName().toLowerCase()).collect(Collectors.toList());
-        Exercises added = new Exercises(text.getText().toString());
+                            if(dataList.contains(converted)){
+                                Toast.makeText(this, "Already exists!", Toast.LENGTH_SHORT).show();
+                            }else{
+                                dataList.add(converted);
 
-        //we check if the database already has the new name
-        if(!names.contains(text.toString().toLowerCase())){
-            //if not then added
-            db.exercisesDao().insertExercises(added);
-        }
-        dataList.add(added);
+                                updateDatabase();
 
-        updateDatabase();
+                                adapter.notifyItemInserted(dataList.indexOf(converted));
+                            }
 
-        adapter.notifyItemInserted(dataList.indexOf(added));
-        text.setText("");
-        dialog.dismiss();
+
+
+                        }
+                    }
+                });
+
 
     }
 
@@ -143,12 +150,6 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
         db.splitDao().updateRoutines(routines,splitName);
     }
 
-    void createDialog(){
-        dialog = new Dialog(this);
-        dialog.setContentView(R.layout.add_dialog);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.setCancelable(true);
-    }
     public void setUpRecyclerview(){
         recyclerView = findViewById(R.id.exeRec);
         adapter = new ExerciseAdapter(dataList,this,this);

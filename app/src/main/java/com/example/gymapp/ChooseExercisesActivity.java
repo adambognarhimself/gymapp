@@ -39,8 +39,9 @@ public class ChooseExercisesActivity extends AppCompatActivity implements Choose
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_exercises);
 
-        db = MyDatabase.getINSTANCE(context);
         context = this;
+        db = MyDatabase.getINSTANCE(context);
+
 
         back = findViewById(R.id.chooseBackButton);
         back.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,13 @@ public class ChooseExercisesActivity extends AppCompatActivity implements Choose
 
         add = findViewById(R.id.addButton);
 
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addButton(search.getText().toString());
+            }
+        });
+
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -69,7 +77,7 @@ public class ChooseExercisesActivity extends AppCompatActivity implements Choose
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //TODO filtered fix with button functionality and visibility fix
+
                 filtered.clear();
                 for(int i = 0;i<data.size();i++){
                     //if the typed in text is contained in any exercises name it will be added to the filter and shown on screen
@@ -115,6 +123,18 @@ public class ChooseExercisesActivity extends AppCompatActivity implements Choose
 
         Intent intent = getIntent();
         intent.putExtra("selected",Converters.fromExerciseToString(exercise));
+        setResult(RESULT_OK,intent);
+        finish();
+
+    }
+
+
+    public void addButton(String name) {
+        Exercises newExercise = new Exercises(name);
+        db.exercisesDao().insertExercises(newExercise);
+
+        Intent intent = getIntent();
+        intent.putExtra("selected",Converters.fromExerciseToString(newExercise));
         setResult(RESULT_OK,intent);
         finish();
 

@@ -1,24 +1,40 @@
 package com.example.gymapp.ui.dashboard;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gymapp.ChooseExercisesActivity;
+import com.example.gymapp.Converters;
+import com.example.gymapp.Exercises;
 import com.example.gymapp.R;
+import com.example.gymapp.Sets;
+import com.example.gymapp.WorkoutAdapter;
+import com.example.gymapp.WorkoutListener;
+import com.example.gymapp.WorkoutRowsAdapter;
 import com.example.gymapp.databinding.FragmentDashboardBinding;
 
-public class DashboardFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class DashboardFragment extends Fragment implements WorkoutListener {
 
     private FragmentDashboardBinding binding;
     ImageButton startStop, add;
@@ -28,29 +44,37 @@ public class DashboardFragment extends Fragment {
     TextView timerText;
 
     Context context;
+    RecyclerView exercise;
+    RecyclerView sets;
+    View root;
+    WorkoutAdapter workoutAdapter;
+    WorkoutRowsAdapter workoutRowsAdapter;
 
-    /*ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult o) {
-                    if(o.getResultCode() == Activity.RESULT_OK){
-                        Intent data = o.getData();
-                        String returned = data.getDataString();
 
-                        Toast.makeText(context,returned,Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-            });*/
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
 
+
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        root = binding.getRoot();
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Handle the result
+                        Intent data = result.getData();
+                        if (data != null) {
+                            String returnedData = data.getStringExtra("selected");
+                            Exercises converted = Converters.fromStringToExercise(returnedData);
+                            Log.d("Returned Data", converted.getName());
+                        }
+                    }
+                });
 
         context = getContext();
 
@@ -103,12 +127,13 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChooseExercisesActivity.class);
-                startActivity(intent);
 
-                //activityResultLauncher.launch(intent);
+
+                activityResultLauncher.launch(intent);
             }
         });
 
+        setupRecyclerView();
 
 
 
@@ -122,6 +147,36 @@ public class DashboardFragment extends Fragment {
         int hours = (int) ((elapsedTime / (1000 * 60 * 60)) % 24);
         String timeString = String.format("%2d:%02d:%02d", hours, minutes, seconds);
         timerText.setText(timeString);
+    }
+
+    private void setupRecyclerView() {
+        exercise = root.findViewById(R.id.workoutRecView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        exercise.setLayoutManager(layoutManager);
+
+
+
+        HashMap<Exercises, List<Sets>> data = new HashMap<>();
+
+        Exercises test = new Exercises("t1");
+        Sets testSet = new Sets(1,30,5);
+        List<Sets> testList = new ArrayList<>();
+        testList.add(testSet);
+
+        data.put(test,testList);
+
+        List<Exercises> names = (List<Exercises>) data.keySet();
+        List<List<Sets>> sets = new ArrayList<>();
+        sets.add(testList);
+
+        workoutAdapter = new WorkoutAdapter(names,context,this);
+        exercise.setAdapter(workoutAdapter);
+
+
+
+
+
+
     }
 
 

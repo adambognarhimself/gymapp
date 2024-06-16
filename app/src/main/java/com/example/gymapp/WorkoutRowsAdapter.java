@@ -12,28 +12,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
 import java.util.List;
 
-public class ChooseAdapter extends RecyclerView.Adapter<ChooseAdapter.RecyclerViewHolder> {
+public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.RecyclerViewHolder> {
 
-    private List<Exercises> courseDataArrayList;
+    private List<Sets> courseDataArrayList;
     private Context mcontext;
 
-    private ChooseListener chooseListener;
 
 
 
-    public ChooseAdapter(List<Exercises> recyclerDataArrayList, Context mcontext, ChooseListener chooseListener) {
+    public WorkoutRowsAdapter(List<Sets> recyclerDataArrayList, Context mcontext ) {
         this.courseDataArrayList = recyclerDataArrayList;
         this.mcontext = mcontext;
-        this.chooseListener = chooseListener;
     }
 
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate Layout
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_box, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_rows, parent, false);
 
         return new RecyclerViewHolder(view);
     }
@@ -41,16 +40,15 @@ public class ChooseAdapter extends RecyclerView.Adapter<ChooseAdapter.RecyclerVi
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         // Set the data to textview
-        Exercises recyclerData = courseDataArrayList.get(position);
-        holder.splitName.setText(recyclerData.getName());
+
+        Sets sets = courseDataArrayList.get(position);
 
 
-        holder.select.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseListener.selectButton(recyclerData);
-            }
-        });
+        holder.wo_KG.setText(String.valueOf(sets.getKg()));
+
+
+
+
     }
 
     @Override
@@ -63,18 +61,26 @@ public class ChooseAdapter extends RecyclerView.Adapter<ChooseAdapter.RecyclerVi
     // View Holder Class to handle Recycler View.
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView splitName;
-        private ImageButton select;
+        private TextView woExerciseName;
+        private TextView woSetID;
+        private TextView wo_Prev;
+        private TextView wo_KG;
+        private TextView wo_Reps;
+        private ImageButton delete;
 
-        private Button addButton;
+
 
 
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-            splitName = itemView.findViewById(R.id.exerciseName);
 
-            select = itemView.findViewById(R.id.selectExerciseButton);
+            woExerciseName = itemView.findViewById(R.id.wo_exercise_name);
+            woSetID = itemView.findViewById(R.id.wo_setId);
+            wo_Prev = itemView.findViewById(R.id.wo_Previous);
+            wo_KG = itemView.findViewById(R.id.wo_KG);
+            wo_Reps = itemView.findViewById(R.id.wo_Reps);
+            //delete = itemView.findViewById(R.id.wo_remove);
 
         }
 
