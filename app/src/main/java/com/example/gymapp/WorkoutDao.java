@@ -20,4 +20,7 @@ public interface WorkoutDao {
 
     @Delete
     void deleteWorkout(Workout workout);
+
+    @Query("SELECT * FROM Workout")
+    List<Workout> getall();
 }

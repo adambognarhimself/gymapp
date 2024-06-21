@@ -48,7 +48,7 @@ public class DashboardFragment extends Fragment implements WorkoutListener {
     RecyclerView sets;
     View root;
     WorkoutAdapter workoutAdapter;
-    WorkoutRowsAdapter workoutRowsAdapter;
+    List<Exercises> currentWorkout;
 
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -58,7 +58,7 @@ public class DashboardFragment extends Fragment implements WorkoutListener {
         DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
 
-
+        currentWorkout = new ArrayList<>();
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
@@ -72,6 +72,7 @@ public class DashboardFragment extends Fragment implements WorkoutListener {
                             String returnedData = data.getStringExtra("selected");
                             Exercises converted = Converters.fromStringToExercise(returnedData);
                             Log.d("Returned Data", converted.getName());
+                            currentWorkout.add(converted);
                         }
                     }
                 });
@@ -102,8 +103,6 @@ public class DashboardFragment extends Fragment implements WorkoutListener {
                     timer.start();
                     timerStarted = true;
                     startStop.setImageResource(R.drawable.baseline_stop_circle_24);
-
-
                 }
                 else{
                 timer.cancel();
@@ -112,7 +111,6 @@ public class DashboardFragment extends Fragment implements WorkoutListener {
                 elapsedTime = 0;
                 updateTimerText();
                     startStop.setImageResource(R.drawable.baseline_play_circle_24);
-
 
                 }
 
@@ -155,21 +153,7 @@ public class DashboardFragment extends Fragment implements WorkoutListener {
         exercise.setLayoutManager(layoutManager);
 
 
-
-        HashMap<Exercises, List<Sets>> data = new HashMap<>();
-
-        Exercises test = new Exercises("t1");
-        Sets testSet = new Sets(1,30,5);
-        List<Sets> testList = new ArrayList<>();
-        testList.add(testSet);
-
-        data.put(test,testList);
-
-        List<Exercises> names = (List<Exercises>) data.keySet();
-        List<List<Sets>> sets = new ArrayList<>();
-        sets.add(testList);
-
-        workoutAdapter = new WorkoutAdapter(names,context,this);
+        workoutAdapter = new WorkoutAdapter(currentWorkout,context,this);
         exercise.setAdapter(workoutAdapter);
 
 

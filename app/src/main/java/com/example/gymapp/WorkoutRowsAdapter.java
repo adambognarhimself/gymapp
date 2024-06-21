@@ -44,8 +44,10 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
         Sets sets = courseDataArrayList.get(position);
 
 
+        holder.woSetID.setText(String.valueOf(position));
         holder.wo_KG.setText(String.valueOf(sets.getKg()));
-
+        holder.wo_Reps.setText(String.valueOf(sets.getReps()));
+        //holder.wo_Prev.setText(String.valueOf(sets.));
 
 
 
@@ -61,12 +63,10 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
     // View Holder Class to handle Recycler View.
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView woExerciseName;
         private TextView woSetID;
         private TextView wo_Prev;
         private TextView wo_KG;
         private TextView wo_Reps;
-        private ImageButton delete;
 
 
 
@@ -75,12 +75,10 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            woExerciseName = itemView.findViewById(R.id.wo_exercise_name);
             woSetID = itemView.findViewById(R.id.wo_setId);
             wo_Prev = itemView.findViewById(R.id.wo_Previous);
             wo_KG = itemView.findViewById(R.id.wo_KG);
             wo_Reps = itemView.findViewById(R.id.wo_Reps);
-            //delete = itemView.findViewById(R.id.wo_remove);
 
         }
 

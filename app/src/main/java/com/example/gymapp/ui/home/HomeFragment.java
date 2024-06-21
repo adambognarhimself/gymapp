@@ -22,6 +22,7 @@ import com.example.gymapp.Split;
 import com.example.gymapp.SplitActivity;
 import com.example.gymapp.Workout;
 import com.example.gymapp.databinding.FragmentHomeBinding;
+import com.example.gymapp.ui.dashboard.DashboardFragment;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class HomeFragment extends Fragment {
     Button getSplitButton;
 
 
-    Button splitButton;
+    Button splitButton, nextButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class HomeFragment extends Fragment {
 
         db = MyDatabase.getINSTANCE(context);
         splitButton = root.findViewById(R.id.splitButton);
+        nextButton = root.findViewById(R.id.nextButton);
 
 
 
@@ -80,8 +82,12 @@ public class HomeFragment extends Fragment {
         });
 
 
+
+
         return root;
     }
+
+
 
     public void openSplitActivity(){
         Intent intent = new Intent(context, SplitActivity.class);
@@ -90,13 +96,17 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void setCurrentSplit(){
+    public String getCurrentSplit(){
         for (Split item:db.splitDao().getall()) {
             if(item.isDisplayed()){
-                splitButton.setText("CURRENT SPLIT: " + item.getName());
-                break;
+                return item.getName();
             }
         }
+        return "Unknown";
+    }
+
+    public void setCurrentSplit(){
+        splitButton.setText("CURRENT SPLIT: " + getCurrentSplit());
     }
 
     @Override
