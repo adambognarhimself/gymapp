@@ -37,10 +37,8 @@ public class HomeFragment extends Fragment {
 
     MyDatabase db;
 
-    Button getSplitButton;
 
 
-    Button splitButton, nextButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,12 +52,9 @@ public class HomeFragment extends Fragment {
 
 
         db = MyDatabase.getINSTANCE(context);
-        splitButton = root.findViewById(R.id.splitButton);
-        nextButton = root.findViewById(R.id.nextButton);
 
 
 
-        setCurrentSplit();
 
 
 
@@ -74,12 +69,6 @@ public class HomeFragment extends Fragment {
 
 
 
-        splitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSplitActivity();
-            }
-        });
 
 
 
@@ -87,27 +76,6 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-
-
-    public void openSplitActivity(){
-        Intent intent = new Intent(context, SplitActivity.class);
-
-        startActivity(intent);
-
-    }
-
-    public String getCurrentSplit(){
-        for (Split item:db.splitDao().getall()) {
-            if(item.isDisplayed()){
-                return item.getName();
-            }
-        }
-        return "Unknown";
-    }
-
-    public void setCurrentSplit(){
-        splitButton.setText("CURRENT SPLIT: " + getCurrentSplit());
-    }
 
     @Override
     public void onDestroyView() {

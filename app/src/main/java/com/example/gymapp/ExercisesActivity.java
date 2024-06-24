@@ -32,9 +32,7 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
 
     RecyclerView recyclerView;
     ExerciseAdapter adapter;
-    Dialog dialog;
     MyDatabase db;
-    Button save;
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
@@ -122,9 +120,6 @@ public class ExercisesActivity extends AppCompatActivity implements ExerciseList
 
                                 adapter.notifyItemInserted(dataList.indexOf(converted));
                             }
-
-
-
                         }
                     }
                 });

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    android:background="@drawable/bg2"
+    >
 
 
     <androidx.cardview.widget.CardView
@@ -26,7 +27,7 @@
             tools:layout_editor_absoluteX="65dp"
             tools:layout_editor_absoluteY="100dp"
             android:layout_gravity="center"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textColor="@color/white"/>
 
         <ImageButton

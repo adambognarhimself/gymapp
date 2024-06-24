@@ -29,13 +29,16 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
     MyDatabase db;
     List<Workout> workoutList;
 
+    String name;
 
-    public WorkoutAdapter(List<Exercises> recyclerDataArrayList, Context mcontext, WorkoutListener workoutListener) {
+
+    public WorkoutAdapter(String name,List<Exercises> recyclerDataArrayList, Context mcontext, WorkoutListener workoutListener) {
         this.courseDataArrayList = recyclerDataArrayList;
         this.mcontext = mcontext;
         this.workoutListener = workoutListener;
         db = MyDatabase.getINSTANCE(mcontext);
         workoutList = db.workoutDao().getall();
+        this.name = name;
     }
 
     @NonNull
@@ -51,35 +54,44 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         // Set the data to textview
 
-
-
-
         Exercises currentName = courseDataArrayList.get(position);
-        //List<Sets> previousWorkout = courseDataArrayList.get(currentName);
-
-
-
 
         holder.woExerciseName.setText(currentName.getName());
 
+        List<Sets> sets = new ArrayList<>();
+        if(getPreviousWorkout() != null){
+            sets = getPreviousWorkout().getExercises().get(currentName);
+        }
+
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(holder.child.getContext());
-//        assert correspondingSets != null;
-//        layoutManager.setInitialPrefetchItemCount(correspondingSets.size());
-//
-//        WorkoutRowsAdapter adapter = new WorkoutRowsAdapter(correspondingSets,mcontext);
-//        holder.child.setLayoutManager(layoutManager);
-//        holder.child.setAdapter(adapter);
-//        holder.child.setRecycledViewPool(viewPool);
+       layoutManager.setInitialPrefetchItemCount(sets.size());
+
+       WorkoutRowsAdapter adapter = new WorkoutRowsAdapter(sets,mcontext);
+        holder.child.setLayoutManager(layoutManager);
+        holder.child.setAdapter(adapter);
+       holder.child.setRecycledViewPool(viewPool);
 
     }
 
-    public  void getPreviousWorkout(String name){
-        List<Sets> prev = new ArrayList<>();
+    public Workout getPreviousWorkout(){
 
-        //int name.charAt(name.length()-1);
+        List<Workout> filteredWorkouts = new ArrayList<>();
+
+        for (Workout item: workoutList) {
+            if(item.getDesc().equals(name)){
+                filteredWorkouts.add(item);
+            }
+        }
+
+        if(filteredWorkouts.size() > 0)
+            return filteredWorkouts.get(filteredWorkouts.size()-1);
+
+        return null;
 
     }
+
 
     @Override
     public int getItemCount() {

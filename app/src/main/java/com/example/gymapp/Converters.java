@@ -75,6 +75,18 @@ public class Converters {
     }
 
     @TypeConverter
+    public static String fromRoutineToString(Routines item) {
+        Gson gson = new Gson();
+        return gson.toJson(item);
+    }
+
+    @TypeConverter
+    public static Routines fromStringToRoutine(String value) {
+        Type listType = new TypeToken<Routines>() {}.getType();
+        return new Gson().fromJson(value, listType);
+    }
+
+    @TypeConverter
     public static List<Workout> fromStringToWorkoutList(String value) {
         Type listType = new TypeToken<List<Workout>>() {}.getType();
         return new Gson().fromJson(value, listType);

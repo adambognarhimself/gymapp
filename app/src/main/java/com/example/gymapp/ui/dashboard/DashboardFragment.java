@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,150 +18,133 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gymapp.ChooseExercisesActivity;
 import com.example.gymapp.Converters;
 import com.example.gymapp.Exercises;
+import com.example.gymapp.MyDatabase;
+import com.example.gymapp.OrderTouchHelper;
 import com.example.gymapp.R;
+import com.example.gymapp.RecyclerViewAdapter;
+import com.example.gymapp.RoutineOrderingAdapter;
+import com.example.gymapp.Routines;
 import com.example.gymapp.Sets;
+import com.example.gymapp.Split;
+import com.example.gymapp.SplitActivity;
+import com.example.gymapp.Workout;
 import com.example.gymapp.WorkoutAdapter;
 import com.example.gymapp.WorkoutListener;
+import com.example.gymapp.WorkoutPage;
 import com.example.gymapp.WorkoutRowsAdapter;
 import com.example.gymapp.databinding.FragmentDashboardBinding;
+import com.example.gymapp.databinding.FragmentHomeBinding;
+import com.example.gymapp.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DashboardFragment extends Fragment implements WorkoutListener {
+public class DashboardFragment extends Fragment{
 
-    private FragmentDashboardBinding binding;
-    ImageButton startStop, add;
-    boolean timerStarted = false;
-    CountDownTimer timer;
-    long elapsedTime = 0;
-    TextView timerText;
+     private FragmentDashboardBinding binding;
+
 
     Context context;
-    RecyclerView exercise;
-    RecyclerView sets;
+
+    MyDatabase db;
+
+
+
+    Button splitButton, startNext;
+    RecyclerView recyclerView;
     View root;
-    WorkoutAdapter workoutAdapter;
-    List<Exercises> currentWorkout;
+    RoutineOrderingAdapter routineOrderingAdapter;
 
-
-    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
 
-        currentWorkout = new ArrayList<>();
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        root = binding.getRoot();
-
-        activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // Handle the result
-                        Intent data = result.getData();
-                        if (data != null) {
-                            String returnedData = data.getStringExtra("selected");
-                            Exercises converted = Converters.fromStringToExercise(returnedData);
-                            Log.d("Returned Data", converted.getName());
-                            currentWorkout.add(converted);
-                        }
-                    }
-                });
-
+         root = binding.getRoot();
         context = getContext();
+        db = MyDatabase.getINSTANCE(context);
+        splitButton = root.findViewById(R.id.splitButton);
 
-        timerText = root.findViewById(R.id.durationText);
 
-        timer = new CountDownTimer(Long.MAX_VALUE,1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                elapsedTime += 1000;
-                updateTimerText();
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        };
-
-        startStop = root.findViewById(R.id.startStopButton);
-        startStop.setOnClickListener(new View.OnClickListener() {
+        splitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(!timerStarted){
-                    timer.start();
-                    timerStarted = true;
-                    startStop.setImageResource(R.drawable.baseline_stop_circle_24);
-                }
-                else{
-                timer.cancel();
-                timerStarted = false;
-
-                elapsedTime = 0;
-                updateTimerText();
-                    startStop.setImageResource(R.drawable.baseline_play_circle_24);
-
-                }
-
-
-
-
-        }});
-
-        add = root.findViewById(R.id.exerciseAddButton);
-
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ChooseExercisesActivity.class);
-
-
-                activityResultLauncher.launch(intent);
+                openSplitActivity();
             }
         });
 
-        setupRecyclerView();
-
-
+        startNext = root.findViewById(R.id.startNextButton);
+        startNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWorkoutPage();
+            }
+        });
 
         return root;
     }
 
-    private void updateTimerText() {
 
-        int seconds = (int) (elapsedTime / 1000) % 60;
-        int minutes = (int) ((elapsedTime / (1000 * 60)) % 60);
-        int hours = (int) ((elapsedTime / (1000 * 60 * 60)) % 24);
-        String timeString = String.format("%2d:%02d:%02d", hours, minutes, seconds);
-        timerText.setText(timeString);
+
+    public void openSplitActivity(){
+        Intent intent = new Intent(context, SplitActivity.class);
+        startActivity(intent);
     }
 
+    public Split getCurrentSplit(){
+        for (Split item:db.splitDao().getall()) {
+            if(item.isDisplayed()){
+                return item;
+            }
+        }
+        return new Split("Unknown");
+    }
+
+    public void setCurrentSplit(){
+        splitButton.setText("CURRENT SPLIT: " + getCurrentSplit().getName());
+    }
+
+
     private void setupRecyclerView() {
-        exercise = root.findViewById(R.id.workoutRecView);
+        recyclerView = root.findViewById(R.id.routineView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        exercise.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
+        routineOrderingAdapter = new RoutineOrderingAdapter(getCurrentSplit(),context,db);
+        ItemTouchHelper.Callback callback = new OrderTouchHelper(routineOrderingAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        routineOrderingAdapter.setItemTouchHelper(touchHelper);
+        touchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(routineOrderingAdapter);
+    }
 
+    public void openWorkoutPage(){
+        Intent intent = new Intent(context, WorkoutPage.class);
+        Routines next = getCurrentSplit().getRoutinesList().get(0);
 
-        workoutAdapter = new WorkoutAdapter(currentWorkout,context,this);
-        exercise.setAdapter(workoutAdapter);
+        Bundle bundle = new Bundle();
+        bundle.putString("data",Converters.fromRoutineToString(next));
 
+        intent.putExtras(bundle);
 
+        //move first to last
+        List<Routines> list = getCurrentSplit().getRoutinesList();
+        list.remove(0);
+        list.add(next);
 
+        db.splitDao().updateRoutines(list,getCurrentSplit().getName());
 
-
-
+        startActivity(intent);
     }
 
 
@@ -168,5 +152,12 @@ public class DashboardFragment extends Fragment implements WorkoutListener {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCurrentSplit();
+        setupRecyclerView();
     }
 }

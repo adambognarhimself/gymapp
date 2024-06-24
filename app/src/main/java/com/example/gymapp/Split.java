@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "Split")
@@ -46,10 +47,12 @@ public class Split {
     }
 
 
+
     @Ignore
     public Split(String name){
         this.name = name;
         this.displayed = false;
+        this.routinesList = new ArrayList<>();
     }
 
     public String getName() {

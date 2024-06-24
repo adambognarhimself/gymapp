@@ -37,15 +37,6 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private RecyclerView recyclerView;
-    private ArrayList<Workout> workoutList;
-
-    MyDatabase db;
-
-    Button getSplitButton;
-
-
-    Button splitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,28 +56,7 @@ public class MainActivity extends AppCompatActivity {
         // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
-        db = MyDatabase.getINSTANCE(this.getApplicationContext());
-        splitButton = findViewById(R.id.splitButton);
-
-
     }
 
 
-    public void setCurrentSplit(){
-        //Get all the data
-        for (Split item:db.splitDao().getall()) {
-            //If isdisplayed is true itt will be seen on the main screen
-            if(item.isDisplayed()){
-                splitButton.setText("CURRENT SPLIT: " + item.getName());
-                break;
-            }
-        }
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        setCurrentSplit();
-    }
 }

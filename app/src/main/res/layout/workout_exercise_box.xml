@@ -7,7 +7,7 @@
     android:layout_marginLeft="10dp"
     android:layout_gravity="center"
     app:cardBackgroundColor="@android:color/transparent"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="20dp"
     >
 
     <LinearLayout
