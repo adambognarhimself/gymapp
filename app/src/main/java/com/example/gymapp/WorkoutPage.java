@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class WorkoutPage extends AppCompatActivity implements WorkoutListener{
 
-    ImageButton startStop, add;
+    Button add;
     boolean timerStarted = false;
     CountDownTimer timer;
     long elapsedTime = 0;
@@ -79,33 +80,7 @@ public class WorkoutPage extends AppCompatActivity implements WorkoutListener{
 
             }
         };
-
-        startStop = findViewById(R.id.startStopButton);
-        startStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(!timerStarted){
-                    timer.start();
-                    timerStarted = true;
-                    startStop.setImageResource(R.drawable.baseline_stop_circle_24);
-                }
-                else{
-                    timer.cancel();
-                    timerStarted = false;
-
-                    elapsedTime = 0;
-                    updateTimerText();
-                    startStop.setImageResource(R.drawable.baseline_play_circle_24);
-
-                }
-
-
-
-
-            }});
-
-        add = findViewById(R.id.exerciseAddButton);
+        add = findViewById(R.id.addExerciseButton);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

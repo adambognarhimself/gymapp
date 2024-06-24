@@ -15,177 +15,79 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="#267B7B7B"
-        >
+        app:cardBackgroundColor="#267B7B7B">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/currentRoutine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Workout"
-            tools:layout_editor_absoluteX="65dp"
-            tools:layout_editor_absoluteY="100dp"
-            android:layout_gravity="center"
-            android:textSize="24sp"
-            android:textColor="@color/white"/>
-
-        <ImageButton
-            android:id="@+id/exerciseAddButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="Button"
-            tools:layout_editor_absoluteX="96dp"
-            tools:layout_editor_absoluteY="190dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/baseline_add_circle_outline_24"
-            android:background="@android:color/transparent"/>
-
-
-
-
-
-    </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView2">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button"
-            android:orientation="vertical"
-            android:paddingBottom="10dp">
-
-            <TextView
+            <ImageButton
+                android:id="@+id/clockButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="Duration"
-                android:textColor="@color/white"
-                android:textSize="25dp" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_timer_24"
+                android:background="@android:color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"/>
 
             <LinearLayout
+                android:id="@+id/rightSideLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/startStopButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/baseline_play_circle_24"
-                    android:textColor="@color/white" />
+                android:orientation="horizontal"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp">
 
                 <TextView
                     android:id="@+id/durationText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="00:00:00"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:text="0:00:00"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/button"
-            android:orientation="vertical"
-            android:paddingBottom="10dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:orientation="horizontal">
-
-
-                <TextView
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/finishButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Timer"
+                    android:background="@drawable/button"
+                    android:text="Finish"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
-
-                <ImageButton
-                    android:id="@+id/openTimerButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
-                    android:layout_marginLeft="5dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/baseline_open_in_new_24"
-                    android:textColor="@color/white" />
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/timerButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/baseline_play_circle_24"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/timerText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:text="0:00:00"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 
-        </LinearLayout>
 
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/workoutRecView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/addExerciseButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView2"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/addExerciseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout2"/>
+        android:background="@drawable/button"
+        android:text="Add new"
+        android:textColor="@color/white"
+        android:layout_marginBottom="15dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
