@@ -18,14 +18,34 @@
         android:orientation="vertical"
         android:background="@drawable/button">
 
-        <TextView
-            android:id="@+id/wo_exercise_name"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Exercise name"
-            android:layout_gravity="center"
-            android:textSize="20dp"
-            android:textColor="@color/white"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:id="@+id/wo_exercise_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exercise name"
+                android:layout_centerHorizontal="true"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <ImageButton
+                android:id="@+id/removeExercise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_delete_24"
+                android:layout_marginRight="10dp"
+                />
+
+        </RelativeLayout>
+
+
 
 
 

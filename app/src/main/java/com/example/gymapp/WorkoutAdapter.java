@@ -9,36 +9,37 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.RecyclerViewHolder> {
+public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.RecyclerViewHolder> implements ISetListener{
 
     private List<Exercises>  courseDataArrayList;
     private Context mcontext;
 
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
-    private WorkoutListener workoutListener;
 
     MyDatabase db;
-    List<Workout> workoutList;
+    WorkoutListener workoutListener;
 
-    String name;
+    WorkoutRowsAdapter adapter;
+    List<Sets> sets;
+    Workout previous;
+
+    private ISetListener iSetListener;
 
 
-    public WorkoutAdapter(String name,List<Exercises> recyclerDataArrayList, Context mcontext, WorkoutListener workoutListener) {
+    public WorkoutAdapter(List<Exercises> recyclerDataArrayList, Context mcontext, Workout prev,WorkoutListener workoutListener,ISetListener iSetListener) {
         this.courseDataArrayList = recyclerDataArrayList;
         this.mcontext = mcontext;
-        this.workoutListener = workoutListener;
         db = MyDatabase.getINSTANCE(mcontext);
-        workoutList = db.workoutDao().getall();
-        this.name = name;
+        this.workoutListener = workoutListener;
+        previous = prev;
+        this.iSetListener = iSetListener;
     }
 
     @NonNull
@@ -57,46 +58,47 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
         Exercises currentName = courseDataArrayList.get(position);
 
         holder.woExerciseName.setText(currentName.getName());
+        holder.addSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                workoutListener.addNewSet(currentName);
+            }
+        });
 
-        List<Sets> sets = new ArrayList<>();
-        if(getPreviousWorkout() != null){
-            sets = getPreviousWorkout().getExercises().get(currentName);
-        }
-
-
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                workoutListener.removeExercise(currentName);
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(holder.child.getContext());
-       layoutManager.setInitialPrefetchItemCount(sets.size());
+       //layoutManager.setInitialPrefetchItemCount(previous.getExercises().get(currentName).size());
 
-       WorkoutRowsAdapter adapter = new WorkoutRowsAdapter(sets,mcontext);
+
+       adapter = new WorkoutRowsAdapter(currentName,previous.getExercises().get(currentName),mcontext,this);
         holder.child.setLayoutManager(layoutManager);
         holder.child.setAdapter(adapter);
        holder.child.setRecycledViewPool(viewPool);
 
     }
 
-    public Workout getPreviousWorkout(){
 
-        List<Workout> filteredWorkouts = new ArrayList<>();
-
-        for (Workout item: workoutList) {
-            if(item.getDesc().equals(name)){
-                filteredWorkouts.add(item);
-            }
-        }
-
-        if(filteredWorkouts.size() > 0)
-            return filteredWorkouts.get(filteredWorkouts.size()-1);
-
-        return null;
-
-    }
 
 
     @Override
     public int getItemCount() {
         // this method returns the size of recyclerview
         return courseDataArrayList.size();
+    }
+
+    @Override
+    public void removeSet(Exercises exercises,Sets sets) {
+//        previous.getExercises().get(exercises).remove(sets);
+//        adapter.notifyDataSetChanged();
+
+        iSetListener.removeSet(exercises,sets);
+
     }
 
 
@@ -108,12 +110,16 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
     private RecyclerView child;
         private Button addSet;
 
+        private ImageButton remove;
+
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
             woExerciseName = itemView.findViewById(R.id.wo_exercise_name);
             addSet = itemView.findViewById(R.id.wo_add_set);
             child = itemView.findViewById(R.id.workout_row_rec);
+            remove = itemView.findViewById(R.id.removeExercise);
+
         }
     }
 }

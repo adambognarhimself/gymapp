@@ -25,7 +25,9 @@
             android:text="id"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"/>
         <TextView
             android:id="@+id/wo_Previous"
             android:layout_width="wrap_content"
@@ -33,32 +35,38 @@
             android:text="n"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/white"/>
-        <TextView
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
+        <EditText
             android:id="@+id/wo_KG"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="n"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/white"/>
-        <TextView
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"/>
+        <EditText
             android:id="@+id/wo_Reps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="n"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"/>
 
-        <TextView
-            android:id="@+id/wo_remove"
+        <ImageButton
+            android:id="@+id/removeSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_delete_24"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="XX"
-            android:textColor="@color/white" />
+            android:background="@android:color/transparent"
+            />
     </LinearLayout>
 
 
