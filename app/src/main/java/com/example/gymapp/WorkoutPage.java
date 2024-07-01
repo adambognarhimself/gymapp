@@ -130,6 +130,11 @@ public class WorkoutPage extends AppCompatActivity implements WorkoutListener, I
             @Override
             public void onClick(View v) {
                 timer.cancel();
+
+                Workout newWorkout = prev;
+
+                db.workoutDao().insertWorkout(newWorkout);
+
                 finish();
             }
         });
@@ -217,4 +222,17 @@ public class WorkoutPage extends AppCompatActivity implements WorkoutListener, I
         prev.getExercises().get(exercises).remove(sets);
         workoutAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void saveKG(Exercises exercises, int setID,int value) {
+        prev.getExercises().get(exercises).get(setID-1).setKg(value);
+        workoutAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void saveReps(Exercises exercises, int setID,int value) {
+        prev.getExercises().get(exercises).get(setID-1).setReps(value);
+        workoutAdapter.notifyDataSetChanged();
+    }
+
 }

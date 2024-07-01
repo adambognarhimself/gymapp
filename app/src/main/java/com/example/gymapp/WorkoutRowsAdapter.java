@@ -1,9 +1,12 @@
 package com.example.gymapp;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -56,6 +59,45 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
             }
         });
 
+        holder.wo_Reps.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!holder.wo_Reps.getText().toString().equalsIgnoreCase("")){
+                    iSetListener.saveKG(name,sets.getSet(),Integer.parseInt(holder.wo_Reps.getText().toString()));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        holder.wo_KG.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!holder.wo_KG.getText().toString().equalsIgnoreCase("")){
+                    iSetListener.saveKG(name,sets.getSet(),Integer.parseInt(holder.wo_KG.getText().toString()));
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
 
 
@@ -73,8 +115,8 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
 
         private TextView woSetID;
         private TextView wo_Prev;
-        private TextView wo_KG;
-        private TextView wo_Reps;
+        private EditText wo_KG;
+        private EditText wo_Reps;
 
         private ImageButton remove;
 

@@ -101,6 +101,18 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
 
     }
 
+    @Override
+    public void saveKG(Exercises exercises, int setID,int value) {
+        iSetListener.saveKG(exercises,setID,value);
+    }
+
+    @Override
+    public void saveReps(Exercises exercises, int setID,int value) {
+        iSetListener.saveReps(exercises,setID,value);
+    }
+
+
+
 
     // View Holder Class to handle Recycler View.
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
