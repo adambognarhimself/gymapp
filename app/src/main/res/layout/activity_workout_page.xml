@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg2"
+    android:background="#000000"
     >
 
 
@@ -15,21 +15,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="#267B7B7B">
+        app:cardBackgroundColor="#131313">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/clockButton"
+                android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_timer_24"
+                android:src="@drawable/baseline_arrow_back_ios_24"
                 android:background="@android:color/transparent"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="10dp"/>
 
             <LinearLayout
                 android:id="@+id/rightSideLayout"
@@ -51,20 +51,9 @@
                     android:textStyle="bold"
                     android:layout_marginEnd="8dp"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/finishButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button"
-                    android:text="Finish"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center"/>
-
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
-
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -72,22 +61,52 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@id/addExerciseButton"
+        app:layout_constraintBottom_toTopOf="@id/buttonHolder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView2"/>
+        app:layout_constraintTop_toBottomOf="@id/cardView2" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/addExerciseButton"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/buttonHolder"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/button"
-        android:text="Add new"
-        android:textColor="@color/white"
-        android:layout_marginBottom="15dp"/>
+        app:layout_constraintTop_toBottomOf="@id/workoutRecView"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_timer_24"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="15dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addExercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button"
+            android:drawableStart="@drawable/baseline_add_24"
+            android:drawablePadding="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="15dp"
+            android:text="Add new"
+            android:textColor="@color/white" />
+
+        <ImageButton
+            android:id="@+id/finishButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_check_circle_24"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="15dp"/>
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

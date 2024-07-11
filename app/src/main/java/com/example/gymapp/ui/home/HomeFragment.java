@@ -53,11 +53,6 @@ public class HomeFragment extends Fragment {
 
         db = MyDatabase.getINSTANCE(context);
 
-
-
-
-
-
         recyclerView = root.findViewById(R.id.recView);
         workoutList = new ArrayList<>();
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(workoutList,context);

@@ -37,38 +37,29 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"/>
-        <EditText
+        <TextView
             android:id="@+id/wo_KG"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="0"
-            android:inputType="number"
             android:layout_weight="1"
+            android:text="0"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"
+
             android:background="@android:color/transparent"/>
-        <EditText
+        <TextView
             android:id="@+id/wo_Reps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="0"
             android:inputType="number"
+            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:background="@android:color/transparent"/>
 
-        <ImageButton
-            android:id="@+id/removeSet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/baseline_delete_24"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            />
     </LinearLayout>
 
 

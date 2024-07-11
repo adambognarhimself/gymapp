@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -13,34 +12,31 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
-public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.RecyclerViewHolder> implements ISetListener{
+public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.RecyclerViewHolder>{
 
-    private List<Exercises>  courseDataArrayList;
-    private Context mcontext;
+    private HashMap<Exercises, List<Sets>> courseDataArrayList;
+    private final Context mcontext;
+    private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
-    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+    private WorkoutRowsAdapter adapter;
 
-
-    MyDatabase db;
-    WorkoutListener workoutListener;
-
-    WorkoutRowsAdapter adapter;
-    List<Sets> sets;
     Workout previous;
+    IWorkoutListener workoutListener;
 
-    private ISetListener iSetListener;
 
-
-    public WorkoutAdapter(List<Exercises> recyclerDataArrayList, Context mcontext, Workout prev,WorkoutListener workoutListener,ISetListener iSetListener) {
+    public WorkoutAdapter(HashMap<Exercises, List<Sets>> recyclerDataArrayList, Context mcontext, Optional<Workout> previousWorkout, IWorkoutListener workoutListener) {
         this.courseDataArrayList = recyclerDataArrayList;
         this.mcontext = mcontext;
-        db = MyDatabase.getINSTANCE(mcontext);
+
+        previous = previousWorkout.orElse(null);
+
         this.workoutListener = workoutListener;
-        previous = prev;
-        this.iSetListener = iSetListener;
     }
+
 
     @NonNull
     @Override
@@ -55,60 +51,38 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         // Set the data to textview
 
-        Exercises currentName = courseDataArrayList.get(position);
+        List<Exercises> exercises = new ArrayList<>(courseDataArrayList.keySet());
 
-        holder.woExerciseName.setText(currentName.getName());
-        holder.addSet.setOnClickListener(new View.OnClickListener() {
+        Exercises currentExercise = exercises.get(position);
+
+        holder.woExerciseName.setText(currentExercise.getName());
+        holder.openup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                workoutListener.addNewSet(currentName);
-            }
-        });
-
-        holder.remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                workoutListener.removeExercise(currentName);
+                workoutListener.openExercise(currentExercise);
             }
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(holder.child.getContext());
-       //layoutManager.setInitialPrefetchItemCount(previous.getExercises().get(currentName).size());
 
 
-       adapter = new WorkoutRowsAdapter(currentName,previous.getExercises().get(currentName),mcontext,this);
-        holder.child.setLayoutManager(layoutManager);
-        holder.child.setAdapter(adapter);
-       holder.child.setRecycledViewPool(viewPool);
+        if(previous != null && previous.getExercises().containsKey(currentExercise)){
+            adapter = new WorkoutRowsAdapter(courseDataArrayList.get(currentExercise),previous.getExercises().get(currentExercise), mcontext);
+        }else{
+            adapter = new WorkoutRowsAdapter(courseDataArrayList.get(currentExercise), mcontext);
+        }
+
+
+       holder.child.setLayoutManager(layoutManager);
+       holder.child.setAdapter(adapter);
+      holder.child.setRecycledViewPool(viewPool);
 
     }
-
-
-
 
     @Override
     public int getItemCount() {
         // this method returns the size of recyclerview
         return courseDataArrayList.size();
-    }
-
-    @Override
-    public void removeSet(Exercises exercises,Sets sets) {
-//        previous.getExercises().get(exercises).remove(sets);
-//        adapter.notifyDataSetChanged();
-
-        iSetListener.removeSet(exercises,sets);
-
-    }
-
-    @Override
-    public void saveKG(Exercises exercises, int setID,int value) {
-        iSetListener.saveKG(exercises,setID,value);
-    }
-
-    @Override
-    public void saveReps(Exercises exercises, int setID,int value) {
-        iSetListener.saveReps(exercises,setID,value);
     }
 
 
@@ -117,20 +91,18 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
     // View Holder Class to handle Recycler View.
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView woExerciseName;
+    private final TextView woExerciseName;
 
-    private RecyclerView child;
-        private Button addSet;
+    private final RecyclerView child;
 
-        private ImageButton remove;
+    final private ImageButton openup;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
             woExerciseName = itemView.findViewById(R.id.wo_exercise_name);
-            addSet = itemView.findViewById(R.id.wo_add_set);
             child = itemView.findViewById(R.id.workout_row_rec);
-            remove = itemView.findViewById(R.id.removeExercise);
+            openup = itemView.findViewById(R.id.openExercise);
 
         }
     }

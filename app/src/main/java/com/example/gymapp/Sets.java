@@ -43,6 +43,10 @@ public class Sets {
     public void setReps(int reps) {
         this.reps = reps;
     }
+    public void updateSet(Sets set){
+        this.reps = set.getReps();
+        this.kg = set.getKg();
+    }
 
 
 }

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @Entity(tableName = "Workout")
 public class Workout {
@@ -61,6 +62,7 @@ public class Workout {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
 
 
     public LocalDate getDate() {

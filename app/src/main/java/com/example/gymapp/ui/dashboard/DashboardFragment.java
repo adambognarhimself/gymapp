@@ -1,51 +1,31 @@
 package com.example.gymapp.ui.dashboard;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gymapp.ChooseExercisesActivity;
 import com.example.gymapp.Converters;
-import com.example.gymapp.Exercises;
 import com.example.gymapp.MyDatabase;
 import com.example.gymapp.OrderTouchHelper;
 import com.example.gymapp.R;
-import com.example.gymapp.RecyclerViewAdapter;
 import com.example.gymapp.RoutineOrderingAdapter;
 import com.example.gymapp.Routines;
-import com.example.gymapp.Sets;
 import com.example.gymapp.Split;
 import com.example.gymapp.SplitActivity;
-import com.example.gymapp.Workout;
-import com.example.gymapp.WorkoutAdapter;
-import com.example.gymapp.WorkoutListener;
 import com.example.gymapp.WorkoutPage;
-import com.example.gymapp.WorkoutRowsAdapter;
 import com.example.gymapp.databinding.FragmentDashboardBinding;
-import com.example.gymapp.databinding.FragmentHomeBinding;
-import com.example.gymapp.ui.home.HomeViewModel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class DashboardFragment extends Fragment{
@@ -112,7 +92,7 @@ public class DashboardFragment extends Fragment{
     }
 
     public void setCurrentSplit(){
-        splitButton.setText("CURRENT SPLIT: " + getCurrentSplit().getName());
+        splitButton.setText(getCurrentSplit().getName());
     }
 
 
