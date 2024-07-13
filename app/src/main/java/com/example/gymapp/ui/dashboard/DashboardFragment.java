@@ -39,7 +39,7 @@ public class DashboardFragment extends Fragment{
 
 
 
-    Button splitButton, startNext;
+    Button splitButton, startNext, startEmpty;
     RecyclerView recyclerView;
     View root;
     RoutineOrderingAdapter routineOrderingAdapter;

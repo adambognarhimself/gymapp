@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,11 +33,11 @@ import java.util.Optional;
 
 public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, ISetListener{
 
-    private Button add;
-    private ImageButton finish, timerButton;
+    private Button add, finish;
+    private ImageButton timerButton;
     private boolean timerStarted = false;
     private CountDownTimer timer;
-    private long elapsedTime = 0;
+    private int elapsedTime = 0;
     private TextView timerText;
     private Context context;
     private RecyclerView recyclerView, dialogRecyclerview;
@@ -46,11 +48,11 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
     private Dialog dialog;
     DialogAdapter dialogAdapter;
 
-    ImageButton delete, collapse;
+    ImageButton delete,back;
     TextView exerciseName;
     Button newSet;
-
     Exercises openedExercise;
+
 
 
 
@@ -66,6 +68,7 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_page);
         db = MyDatabase.getINSTANCE(this);
+
 
         Bundle bundle = getIntent().getExtras();
         routine =   Converters.fromStringToRoutine(bundle.getString("data")) ;
@@ -86,6 +89,7 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
                             String returnedData = data.getStringExtra("selected");
                             Exercises converted = Converters.fromStringToExercise(returnedData);
                             currentWorkout.put(converted, new ArrayList<>());
+
                         }
                     }
                 });
@@ -123,8 +127,18 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
             public void onClick(View v) {
                 timer.cancel();
 
-//                db.workoutDao().insertWorkout(newWorkout);
+                Workout save = new Workout(elapsedTime,routine.getName(),currentWorkout, LocalDate.now());
 
+                db.workoutDao().insertWorkout(save);
+
+                finish();
+            }
+        });
+
+        back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
@@ -132,15 +146,21 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
         timer.start();
         initDialog();
 
-        collapse = dialog.findViewById(R.id.collapseButton);
         exerciseName= dialog.findViewById(R.id.exerciseName);
         dialogRecyclerview = dialog.findViewById(R.id.setsView);
+        delete = dialog.findViewById(R.id.deleteExerciseButton);
 
-        collapse.setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int indexToDelete = indexOfExercise(openedExercise);
+
+                currentWorkout.remove(openedExercise);
+                workoutAdapter.notifyItemRemoved(indexToDelete);
+
                 openedExercise = null;
                 dialog.dismiss();
+
             }
         });
 
@@ -153,12 +173,10 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
                 if(openedExercise != null){
                     if(sets.size()>0){
                     currentWorkout.get(openedExercise).add(new Sets(index,sets.get(sets.size()-1).getKg(),0));
-                    workoutAdapter.notifyItemInserted(indexOfExercise(openedExercise));
                     dialogAdapter.notifyItemInserted(index-1);
                     }
                     else{
                         currentWorkout.get(openedExercise).add(new Sets(index,0,0));
-                        workoutAdapter.notifyItemInserted(indexOfExercise(openedExercise));
                         dialogAdapter.notifyItemInserted(index-1);
                     }
                 }
@@ -178,7 +196,12 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
     private void setupRecyclerView() {
 
         recyclerView = findViewById(R.id.workoutRecView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context){
+            @Override
+            public boolean canScrollVertically(){
+                return false;
+            }
+        };
         recyclerView.setLayoutManager(layoutManager);
 
         workoutAdapter = new WorkoutAdapter(currentWorkout,context,getPreviousWorkout(routine.getName()),this);
@@ -186,7 +209,14 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
     }
 
     private void initDialogRecyclerView(Exercises exercises){
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context){
+
+            @Override
+            public boolean canScrollVertically(){
+                return false;
+            }
+        };
+
         dialogRecyclerview.setLayoutManager(layoutManager);
 
         dialogAdapter = new DialogAdapter(currentWorkout.get(exercises),context,getPreviousWorkout(routine.getName()),exercises,this);
@@ -220,12 +250,7 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
 
     @Override
     public void setChanged(Exercises exercises, Sets set) {
-
         currentWorkout.get(exercises).get(set.getSet()-1).updateSet(set);
-
-        int index = indexOfExercise(exercises);
-
-        workoutAdapter.notifyItemChanged(index);
     }
 
     private int indexOfExercise(Exercises exercises) {
@@ -242,23 +267,20 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
     @Override
     public void setDeleted(Exercises exercises, Sets sets) {
         currentWorkout.get(exercises).remove(sets.getSet()-1);
-
-        int index = indexOfExercise(exercises);
-
-        workoutAdapter.notifyItemChanged(index);
+        for(int i = 0; i < currentWorkout.get(exercises).size();i++){
+            currentWorkout.get(exercises).get(i).setSet(i+1);
+        }
+        dialogAdapter.notifyItemRemoved(sets.getSet()-1);
     }
 
 
     @Override
     public void openExercise(Exercises exercises) {
         dialogAnimation();
-
         dialog.show();
         openedExercise = exercises;
         exerciseName.setText(exercises.getName());
-
         initDialogRecyclerView(exercises);
-        dialogAdapter.notifyDataSetChanged();
     }
 
     private void dialogAnimation() {
@@ -287,6 +309,10 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
                 }
             });
             root.startAnimation(down);
+
+            int indexChanged = indexOfExercise(openedExercise);
+            workoutAdapter.notifyItemChanged(indexChanged);
+            openedExercise = null;
         });
     }
 

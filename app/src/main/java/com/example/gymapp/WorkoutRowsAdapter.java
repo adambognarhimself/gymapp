@@ -43,10 +43,7 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
     @Override
     public void onBindViewHolder(@NonNull WorkoutRowsAdapter.RecyclerViewHolder holder, int position) {
 
-            if(setsList.size()>0) {
-                holder.recyclerView.setVisibility(View.VISIBLE);
-                holder.linearLayout.setVisibility(View.VISIBLE);
-            }
+
 
         if(prevSets != null && position <= prevSets.size()-1){
             holder.prev.setText(String.valueOf(prevSets.get(position).getReps()));
@@ -56,7 +53,6 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
         holder.id.setText(String.valueOf(position+1));
         holder.kg.setText(String.valueOf(setsList.get(position).getKg()));
         holder.reps.setText(String.valueOf(setsList.get(position).getReps()));
-
 
     }
 
@@ -68,8 +64,6 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         TextView id,prev,kg,reps;
-        LinearLayout linearLayout;
-        RecyclerView recyclerView;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,8 +72,6 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
             prev = itemView.findViewById(R.id.wo_Previous);
             kg = itemView.findViewById(R.id.wo_KG);
             reps = itemView.findViewById(R.id.wo_Reps);
-            linearLayout = itemView.findViewById(R.id.exerciseRow);
-            recyclerView = itemView.findViewById(R.id.workout_row_rec);
 
         }
     }

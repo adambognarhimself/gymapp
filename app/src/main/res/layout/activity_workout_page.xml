@@ -4,109 +4,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    >
+    android:background="#000000">
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="#131313">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/backButton"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:cardBackgroundColor="#131313">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/backButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_arrow_back_ios_24"
+                        android:background="@android:color/transparent"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/rightSideLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:id="@+id/durationText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00:00:00"
+                            android:textColor="@color/myGreen"
+                            android:textSize="20sp"
+                            android:layout_gravity="center"
+                            android:textStyle="bold"
+                            android:layout_marginEnd="8dp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/finishButton"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/alt_button"
+                            android:textColor="@color/white"
+                            android:text="Finish"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/workoutRecView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/addExercise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_arrow_back_ios_24"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"/>
+                android:drawableStart="@drawable/baseline_add_24"
+                android:drawablePadding="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
+                android:text="Add new"
+                android:textColor="@color/white" />
 
-            <LinearLayout
-                android:id="@+id/rightSideLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="8dp">
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/durationText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="00:00:00"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="8dp"/>
-
-            </LinearLayout>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/workoutRecView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@id/buttonHolder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView2" />
-
-    <RelativeLayout
-        android:id="@+id/buttonHolder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/workoutRecView"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_timer_24"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:background="@android:color/transparent"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="15dp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/addExercise"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/button"
-            android:drawableStart="@drawable/baseline_add_24"
-            android:drawablePadding="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="15dp"
-            android:text="Add new"
-            android:textColor="@color/white" />
-
-        <ImageButton
-            android:id="@+id/finishButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_check_circle_24"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:background="@android:color/transparent"
-            android:layout_marginBottom="30dp"
-            android:layout_marginRight="15dp"/>
-
-    </RelativeLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

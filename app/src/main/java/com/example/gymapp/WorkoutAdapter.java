@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -77,6 +78,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
        holder.child.setAdapter(adapter);
       holder.child.setRecycledViewPool(viewPool);
 
+      if(courseDataArrayList.get(currentExercise).size()>0){
+          holder.recyclerView.setVisibility(View.VISIBLE);
+          holder.linearLayout.setVisibility(View.VISIBLE);
+      }else{
+          holder.recyclerView.setVisibility(View.GONE);
+          holder.linearLayout.setVisibility(View.GONE);
+      }
+
     }
 
     @Override
@@ -90,12 +99,11 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
 
     // View Holder Class to handle Recycler View.
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
     private final TextView woExerciseName;
-
     private final RecyclerView child;
-
     final private ImageButton openup;
+    LinearLayout linearLayout;
+     RecyclerView recyclerView;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -103,6 +111,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
             woExerciseName = itemView.findViewById(R.id.wo_exercise_name);
             child = itemView.findViewById(R.id.workout_row_rec);
             openup = itemView.findViewById(R.id.openExercise);
+            linearLayout = itemView.findViewById(R.id.exerciseRow);
+            recyclerView = itemView.findViewById(R.id.workout_row_rec);
 
         }
     }

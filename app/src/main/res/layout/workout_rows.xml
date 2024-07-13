@@ -8,68 +8,68 @@
     android:layout_margin="5dp"
     app:cardCornerRadius="10dp"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardElevation="5dp"
-    >
-
+    app:cardElevation="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/button"
-        >
+        android:orientation="horizontal"
+        android:weightSum="5">
+
         <TextView
             android:id="@+id/wo_setId"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="0"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:background="@android:color/transparent"/>
+
         <TextView
             android:id="@+id/wo_Previous"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="0"
             android:textColor="@color/white"
             android:textSize="20sp"/>
+
         <EditText
             android:id="@+id/wo_KG"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="0"
-            android:inputType="number"
             android:layout_weight="1"
             android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:background="@android:color/transparent"/>
+
         <EditText
             android:id="@+id/wo_Reps"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="0"
-            android:inputType="number"
             android:layout_weight="1"
             android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:background="@android:color/transparent"/>
 
         <ImageButton
             android:id="@+id/removeSet"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/baseline_delete_24"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            />
+            android:src="@drawable/baseline_delete_24"/>
     </LinearLayout>
-
-
 </androidx.cardview.widget.CardView>

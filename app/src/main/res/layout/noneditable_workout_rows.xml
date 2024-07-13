@@ -8,59 +8,59 @@
     android:layout_margin="5dp"
     app:cardCornerRadius="10dp"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardElevation="5dp"
-    >
-
+    app:cardElevation="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/button"
-        >
+        android:orientation="horizontal"
+        android:weightSum="4">
+
         <TextView
             android:id="@+id/wo_setId"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="0"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:background="@android:color/transparent"/>
+
         <TextView
             android:id="@+id/wo_Previous"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="0"
             android:textColor="@color/white"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:background="@android:color/transparent"/>
+
         <TextView
             android:id="@+id/wo_KG"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="0"
             android:gravity="center"
+            android:text="0"
             android:textColor="@color/white"
             android:textSize="20sp"
-
             android:background="@android:color/transparent"/>
+
         <TextView
             android:id="@+id/wo_Reps"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="0"
+            android:inputType="number"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:background="@android:color/transparent"/>
-
     </LinearLayout>
-
-
 </androidx.cardview.widget.CardView>

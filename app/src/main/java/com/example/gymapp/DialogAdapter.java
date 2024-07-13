@@ -27,12 +27,6 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.RecyclerVi
     ISetListener setListener;
 
 
-
-    public DialogAdapter(List<Sets> data) {
-        this.data = data;
-    }
-
-
     public DialogAdapter(List<Sets> sets, Context context, Optional<Workout> previousWorkout, Exercises exercises, ISetListener setListener) {
 
         data = sets;
@@ -80,14 +74,15 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.RecyclerVi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!holder.kg.getText().toString().isEmpty()){
-                    setListener.setChanged(exercises, data.get(holder.getAdapterPosition()));
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if(!holder.kg.getText().toString().isEmpty()){
+                    data.get(position).setKg(Integer.parseInt(holder.kg.getText().toString()));
+                    setListener.setChanged(exercises, data.get(holder.getAdapterPosition()));
+                }
             }
         });
 
@@ -99,14 +94,15 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.RecyclerVi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!holder.reps.getText().toString().isEmpty()){
-                    setListener.setChanged(exercises, data.get(holder.getAdapterPosition()));
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if(!holder.reps.getText().toString().isEmpty()){
+                    data.get(position).setReps(Integer.parseInt(holder.reps.getText().toString()));
+                    setListener.setChanged(exercises, data.get(holder.getAdapterPosition()));
+                }
             }
         });
 
