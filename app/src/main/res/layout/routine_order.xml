@@ -27,6 +27,7 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
             android:textColor="@color/white"
+            android:fontFamily="sans-serif-medium"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"

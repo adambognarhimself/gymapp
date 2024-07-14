@@ -54,7 +54,8 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="0.15"
                                 android:background="@android:color/transparent"
-                                android:src="@drawable/baseline_delete_40" />
+                                android:src="@drawable/baseline_delete_40"
+                                android:adjustViewBounds="true"/>
 
                             <TextView
                                 android:id="@+id/exerciseName"
@@ -62,10 +63,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.7"
                                 android:gravity="center"
+                                android:layout_gravity="center"
                                 android:text="Exercise"
                                 android:textColor="@color/white"
                                 android:textSize="30sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                />
 
                             <ImageButton
                                 android:id="@+id/collapseButton"
@@ -76,6 +79,7 @@
                                 android:background="@android:color/transparent"
                                 android:rotation="270"
                                 android:src="@drawable/baseline_arrow_back_ios_30"
+                                android:adjustViewBounds="true"
                                 />
 
                         </LinearLayout>

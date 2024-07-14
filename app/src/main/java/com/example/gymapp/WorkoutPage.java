@@ -71,13 +71,22 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
 
 
         Bundle bundle = getIntent().getExtras();
-        routine =   Converters.fromStringToRoutine(bundle.getString("data")) ;
-
         currentWorkout = new HashMap<>();
 
-        for (Exercises item :routine.getListOfExercises()) {
-            currentWorkout.put(item, new ArrayList<>());
+        if(!bundle.isEmpty()){
+            routine =   Converters.fromStringToRoutine(bundle.getString("data")) ;
+
+            for (Exercises item :routine.getListOfExercises()) {
+                currentWorkout.put(item, new ArrayList<>());
+            }
+        }else{
+            routine = new Routines("Empty");
         }
+
+
+
+
+
 
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -130,6 +139,7 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
                 Workout save = new Workout(elapsedTime,routine.getName(),currentWorkout, LocalDate.now());
 
                 db.workoutDao().insertWorkout(save);
+                
 
                 finish();
             }
@@ -209,13 +219,7 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
     }
 
     private void initDialogRecyclerView(Exercises exercises){
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context){
-
-            @Override
-            public boolean canScrollVertically(){
-                return false;
-            }
-        };
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         dialogRecyclerview.setLayoutManager(layoutManager);
 

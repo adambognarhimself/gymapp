@@ -42,11 +42,9 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutRowsAdapter.RecyclerViewHolder holder, int position) {
-
-
-
         if(prevSets != null && position <= prevSets.size()-1){
             holder.prev.setText(String.valueOf(prevSets.get(position).getReps()));
+            holder.kg.setText(String.valueOf(prevSets.get(position).getKg()));
         }else{
             holder.prev.setText(String.valueOf(0));
         }
@@ -60,6 +58,8 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
     public int getItemCount() {
         return setsList.size();
     }
+
+
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 

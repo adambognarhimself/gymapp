@@ -8,9 +8,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -20,6 +23,7 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
     RecyclerView recyclerView;
     ImageButton back, add;
     Button save;
+    TextView pageName;
 
     Dialog dialog;
     SplitAdapter adapter;
@@ -56,7 +60,7 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
           }
       });
 
-      save = dialog.findViewById(R.id.addNameButton);
+      save = dialog.findViewById(R.id.saveData);
 
       save.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -65,6 +69,9 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
               recreate();
           }
       });
+
+      pageName = dialog.findViewById(R.id.pageName);
+      pageName.setText("New Split");
 
 
     }
@@ -89,9 +96,12 @@ public class SplitActivity extends AppCompatActivity implements SplitListener{
         dialog.setContentView(R.layout.add_dialog);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCancelable(true);
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+
     }
     public void addNewSplit(){
-        EditText text = dialog.findViewById(R.id.saveNameText);
+        EditText text = dialog.findViewById(R.id.nameText);
 
         for (Split item: data) {
             if(item.getName().equalsIgnoreCase(text.getText().toString())) {

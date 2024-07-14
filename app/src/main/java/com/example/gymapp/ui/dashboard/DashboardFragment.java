@@ -72,6 +72,14 @@ public class DashboardFragment extends Fragment{
             }
         });
 
+        startEmpty = root.findViewById(R.id.startEmptyButton);
+        startEmpty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openEmptyWorkoutPage();
+            }
+        });
+
         return root;
     }
 
@@ -110,19 +118,29 @@ public class DashboardFragment extends Fragment{
 
     public void openWorkoutPage(){
         Intent intent = new Intent(context, WorkoutPage.class);
-        Routines next = getCurrentSplit().getRoutinesList().get(0);
-
         Bundle bundle = new Bundle();
-        bundle.putString("data",Converters.fromRoutineToString(next));
+
+        if(!getCurrentSplit().getName().equals("Unknown")){
+            Routines next = getCurrentSplit().getRoutinesList().get(0);
+            bundle.putString("data",Converters.fromRoutineToString(next));
+
+
+            //move first to last
+            List<Routines> list = getCurrentSplit().getRoutinesList();
+            list.remove(0);
+            list.add(next);
+            db.splitDao().updateRoutines(list,getCurrentSplit().getName());
+        }
 
         intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
-        //move first to last
-        List<Routines> list = getCurrentSplit().getRoutinesList();
-        list.remove(0);
-        list.add(next);
+    public void openEmptyWorkoutPage(){
+        Intent intent = new Intent(context,WorkoutPage.class);
 
-        db.splitDao().updateRoutines(list,getCurrentSplit().getName());
+        Bundle bundle = new Bundle();
+        intent.putExtras(bundle);
 
         startActivity(intent);
     }

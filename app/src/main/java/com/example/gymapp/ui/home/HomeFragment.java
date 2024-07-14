@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gymapp.Exercises;
 import com.example.gymapp.MyDatabase;
 import com.example.gymapp.R;
 import com.example.gymapp.RecyclerViewAdapter;
@@ -61,8 +62,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-
-
+//
+//        for (Workout item: db.workoutDao().getall()) {
+//            db.workoutDao().deleteWorkout(item);
+//        }
 
 
 

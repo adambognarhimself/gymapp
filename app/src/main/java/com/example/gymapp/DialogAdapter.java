@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.RecyclerViewHolder> {
 
@@ -53,6 +54,7 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.RecyclerVi
 
         if(prevSets.size() != 0 && position<= prevSets.size()-1){
             holder.prev.setText(String.valueOf(prevSets.get(position).getReps()));
+            holder.kg.setText(String.valueOf(prevSets.get(position).getKg()));
         }else{
             holder.prev.setText(String.valueOf(0));
         }
@@ -80,7 +82,7 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.RecyclerVi
             @Override
             public void afterTextChanged(Editable s) {
                 if(!holder.kg.getText().toString().isEmpty()){
-                    data.get(position).setKg(Integer.parseInt(holder.kg.getText().toString()));
+                    data.get(holder.getAdapterPosition()).setKg(Integer.parseInt(holder.kg.getText().toString()));
                     setListener.setChanged(exercises, data.get(holder.getAdapterPosition()));
                 }
             }
@@ -100,7 +102,7 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.RecyclerVi
             @Override
             public void afterTextChanged(Editable s) {
                 if(!holder.reps.getText().toString().isEmpty()){
-                    data.get(position).setReps(Integer.parseInt(holder.reps.getText().toString()));
+                    data.get(holder.getAdapterPosition()).setReps(Integer.parseInt(holder.reps.getText().toString()));
                     setListener.setChanged(exercises, data.get(holder.getAdapterPosition()));
                 }
             }
@@ -121,11 +123,16 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.RecyclerVi
     }
 
     public List<Sets> getPreviousSets(){
-        if(previous != null && previous.getExercises().containsKey(exercises)){
-            return previous.getExercises().get(exercises);
+        List<Sets> test = new ArrayList<>();
+        if(previous != null){
+            for (Exercises item:previous.getExercises().keySet()) {
+                if(item.getName().equals(exercises.getName())){
+                    test = previous.getExercises().get(item);
+                    return test;
+                }
+            }
         }
-
-        return new ArrayList<>();
+        return test;
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {

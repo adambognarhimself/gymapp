@@ -8,9 +8,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,6 +31,8 @@ public class RoutinesActivity extends AppCompatActivity implements RoutineListen
     Button save;
 
     ImageButton back,add;
+
+    TextView pageName;
 
 
     @Override
@@ -65,7 +70,7 @@ public class RoutinesActivity extends AppCompatActivity implements RoutineListen
         setUpRecyclerview();
         createDialog();
 
-        save = dialog.findViewById(R.id.addNameButton);
+        save = dialog.findViewById(R.id.saveData);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +87,9 @@ public class RoutinesActivity extends AppCompatActivity implements RoutineListen
         });
 
 
+         pageName = dialog.findViewById(R.id.pageName);
+         pageName.setText("New Routine");
+
 
 
 
@@ -92,10 +100,13 @@ public class RoutinesActivity extends AppCompatActivity implements RoutineListen
         dialog.setContentView(R.layout.add_dialog);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCancelable(true);
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+
     }
 
     public void addNewRoutine(){
-        EditText text = dialog.findViewById(R.id.saveNameText);
+        EditText text = dialog.findViewById(R.id.nameText);
 
         for (Routines item: dataList) {
             if(item.getName().equalsIgnoreCase(text.getText().toString())) {

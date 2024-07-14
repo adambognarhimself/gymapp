@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg2"
+    android:background="@color/black"
     >
 
 
@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="#267B7B7B"
+        app:cardBackgroundColor="#131313"
         >
 
 
@@ -40,7 +40,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/baseline_add_circle_outline_24"
+            android:src="@drawable/baseline_add_circle_24"
             android:background="@android:color/transparent"/>
 
         <ImageButton
@@ -53,7 +53,7 @@
             android:layout_gravity="start"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/baseline_arrow_back_24"
+            android:src="@drawable/baseline_arrow_back_ios_24"
             android:background="@android:color/transparent"/>
 
 
