@@ -89,14 +89,21 @@ public class ChooseExercisesActivity extends AppCompatActivity implements Choose
 
                 adapter.notifyDataSetChanged();
 
-                if(filtered.isEmpty()){
-                    if(search.getText().toString().isEmpty() || search.getText().toString().equalsIgnoreCase("")){
-                        add.setVisibility(View.INVISIBLE);
-                    }else{
-                        add.setVisibility(View.VISIBLE);
-                    }
-                }else{
+//                if(filtered.isEmpty()){
+//                    if(search.getText().toString().isEmpty() || search.getText().toString().equalsIgnoreCase("")){
+//                        add.setVisibility(View.INVISIBLE);
+//                    }else{
+//                        add.setVisibility(View.VISIBLE);
+//                    }
+//
+//                }else{
+//                    add.setVisibility(View.INVISIBLE);
+//                }
+
+                if(search.getText().toString().isEmpty() || search.getText().toString().equalsIgnoreCase("")){
                     add.setVisibility(View.INVISIBLE);
+                }else{
+                    add.setVisibility(View.VISIBLE);
                 }
 
 
@@ -131,12 +138,17 @@ public class ChooseExercisesActivity extends AppCompatActivity implements Choose
 
     public void addButton(String name) {
         Exercises newExercise = new Exercises(name);
-        db.exercisesDao().insertExercises(newExercise);
 
-        Intent intent = getIntent();
-        intent.putExtra("selected",Converters.fromExerciseToString(newExercise));
-        setResult(RESULT_OK,intent);
-        finish();
+        if(!db.exercisesDao().getall().contains(newExercise)){
+            db.exercisesDao().insertExercises(newExercise);
+
+            Intent intent = getIntent();
+            intent.putExtra("selected",Converters.fromExerciseToString(newExercise));
+            setResult(RESULT_OK,intent);
+            finish();
+        }
+
+
 
     }
 }

@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-//
+
 //        for (Workout item: db.workoutDao().getall()) {
 //            db.workoutDao().deleteWorkout(item);
 //        }

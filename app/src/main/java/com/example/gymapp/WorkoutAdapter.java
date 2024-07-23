@@ -69,7 +69,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
         List<Sets> previousSets = new ArrayList<>();
         if(previous != null){
             for (Exercises item:previous.getExercises().keySet()) {
-                if(item.getName().equals(currentExercise.getName())){
+                String name = item.getName();
+                if(name.equals(currentExercise.getName())){
                     previousSets = previous.getExercises().get(item);
                     adapter = new WorkoutRowsAdapter(courseDataArrayList.get(currentExercise),previousSets, mcontext);
                     break;
