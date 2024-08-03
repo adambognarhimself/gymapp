@@ -56,6 +56,16 @@ public class DashboardFragment extends Fragment{
         db = MyDatabase.getINSTANCE(context);
         splitButton = root.findViewById(R.id.splitButton);
 
+//        for (Exercises item: db.exercisesDao().getall()) {
+//            db.exercisesDao().deleteExercises(item);
+//        }
+//        for (Workout item: db.workoutDao().getall()) {
+//            db.workoutDao().deleteWorkout(item);
+//        }
+//        for (Split item: db.splitDao().getall()) {
+//            db.splitDao().deleteSplit(item);
+//        }
+
 
         splitButton.setOnClickListener(new View.OnClickListener() {
             @Override

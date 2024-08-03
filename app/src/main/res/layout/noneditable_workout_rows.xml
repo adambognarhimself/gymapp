@@ -14,9 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/button"
-        android:orientation="horizontal"
-        android:weightSum="4">
+        android:background="@drawable/light_button"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/wo_setId"

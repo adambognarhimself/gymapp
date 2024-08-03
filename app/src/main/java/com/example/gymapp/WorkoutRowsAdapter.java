@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,18 +17,21 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
     private final Context context;
 
     private final List<Sets> prevSets;
+    private final Boolean showPrevious;
 
 
-    public WorkoutRowsAdapter(List<Sets> sets, List<Sets> prevSets, Context context){
+    public WorkoutRowsAdapter(List<Sets> sets, List<Sets> prevSets, Context context,Boolean showPrevious){
     this.setsList = sets;
     this.context = context;
     this.prevSets = prevSets;
+    this.showPrevious = showPrevious;
     }
 
-    public WorkoutRowsAdapter(List<Sets> sets, Context context){
+    public WorkoutRowsAdapter(List<Sets> sets, Context context,Boolean showPrevious){
         this.setsList = sets;
         this.context = context;
         prevSets = null;
+        this.showPrevious = showPrevious;
     }
 
     @NonNull
@@ -43,6 +45,7 @@ public class WorkoutRowsAdapter extends RecyclerView.Adapter<WorkoutRowsAdapter.
     @Override
     public void onBindViewHolder(@NonNull WorkoutRowsAdapter.RecyclerViewHolder holder, int position) {
 
+        if(!showPrevious) holder.prev.setVisibility(View.GONE);
 
         if(prevSets != null && position <= prevSets.size()-1){
             holder.prev.setText(String.valueOf(prevSets.get(position).getReps()));

@@ -72,12 +72,12 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
                 String name = item.getName();
                 if(name.equals(currentExercise.getName())){
                     previousSets = previous.getExercises().get(item);
-                    adapter = new WorkoutRowsAdapter(courseDataArrayList.get(currentExercise),previousSets, mcontext);
+                    adapter = new WorkoutRowsAdapter(courseDataArrayList.get(currentExercise),previousSets, mcontext,true);
                     break;
                 }
             }
         }else{
-            adapter = new WorkoutRowsAdapter(courseDataArrayList.get(currentExercise), mcontext);
+            adapter = new WorkoutRowsAdapter(courseDataArrayList.get(currentExercise), mcontext,true);
         }
 
 

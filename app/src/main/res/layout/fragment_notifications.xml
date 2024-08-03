@@ -13,16 +13,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="3"
-        android:layout_marginTop="20dp"
-        >
+        android:layout_marginTop="20dp">
 
         <ImageButton
+            android:id="@+id/previousMonthButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_arrow_back_24"
             android:background="@android:color/transparent"
             android:layout_weight="1"/>
         <TextView
+            android:id="@+id/exerciseName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="July 2024"
@@ -33,14 +34,13 @@
             android:textStyle="bold"
             android:textColor="@color/white"/>
         <ImageButton
+            android:id="@+id/nextMonthButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_arrow_back_24"
             android:rotation="180"
             android:background="@android:color/transparent"
             android:layout_weight="1"/>
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -48,71 +48,77 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="7"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MON"
-            android:textColor="@color/myGreen"
+            android:textColor="#73DE01"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:padding="1dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TUE"
-            android:textColor="@color/myGreen"
+            android:textColor="#73DE01"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:padding="1dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="WED"
-            android:textColor="@color/myGreen"
+            android:textColor="#73DE01"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:padding="1dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="THU"
-            android:textColor="@color/myGreen"
+            android:textColor="#73DE01"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:padding="1dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FRI"
-            android:textColor="@color/myGreen"
+            android:textColor="#73DE01"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:padding="1dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SAT"
-            android:textColor="@color/myGreen"
+            android:textColor="#73DE01"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:padding="1dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SUN"
-            android:textColor="@color/myGreen"
+            android:textColor="#73DE01"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textSize="16sp"/>
-
-
+            android:textSize="16sp"
+            android:padding="1dp"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"/>
-
 </LinearLayout>

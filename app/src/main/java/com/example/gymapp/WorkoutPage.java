@@ -34,8 +34,6 @@ import java.util.Optional;
 public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, ISetListener{
 
     private Button add, finish;
-    private ImageButton timerButton;
-    private boolean timerStarted = false;
     private CountDownTimer timer;
     private int elapsedTime = 0;
     private TextView timerText;
@@ -52,11 +50,6 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
     TextView exerciseName;
     Button newSet;
     Exercises openedExercise;
-
-
-
-
-
 
 
 
@@ -157,7 +150,7 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
         initDialog();
 
         exerciseName= dialog.findViewById(R.id.exerciseName);
-        dialogRecyclerview = dialog.findViewById(R.id.setsView);
+        dialogRecyclerview = dialog.findViewById(R.id.workouts);
         delete = dialog.findViewById(R.id.deleteExerciseButton);
 
         delete.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +202,7 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context){
             @Override
             public boolean canScrollVertically(){
-                return false;
+                return true;
             }
         };
         recyclerView.setLayoutManager(layoutManager);
