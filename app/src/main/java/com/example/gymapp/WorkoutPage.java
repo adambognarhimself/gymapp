@@ -1,22 +1,15 @@
 package com.example.gymapp;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -24,6 +17,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -37,6 +35,8 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
     private CountDownTimer timer;
     private int elapsedTime = 0;
     private TextView timerText;
+
+    Boolean timerStarted = false;
     private Context context;
     private RecyclerView recyclerView, dialogRecyclerview;
     private WorkoutAdapter workoutAdapter;
@@ -58,6 +58,7 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        elapsedTime = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_page);
         db = MyDatabase.getINSTANCE(this);
@@ -128,11 +129,11 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
             @Override
             public void onClick(View v) {
                 timer.cancel();
+                timerStarted = false;
 
                 Workout save = new Workout(elapsedTime,routine.getName(),currentWorkout, LocalDate.now());
 
                 db.workoutDao().insertWorkout(save);
-                
 
                 finish();
             }
@@ -142,11 +143,14 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timer.cancel();
+                timerStarted = false;
                 finish();
             }
         });
 
         timer.start();
+
         initDialog();
 
         exerciseName= dialog.findViewById(R.id.exerciseName);
@@ -233,6 +237,37 @@ public class WorkoutPage extends AppCompatActivity implements IWorkoutListener, 
     protected void onResume() {
         super.onResume();
         setupRecyclerView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(timerStarted){
+        SharedPreferences preferences = getSharedPreferences("time", MODE_PRIVATE);
+            int elapsed = preferences.getInt("elapsedTime",0);
+            Long timePassed = preferences.getLong("timePassed",0);
+
+            elapsedTime = (int) (elapsed+ (System.currentTimeMillis()-timePassed));
+
+            updateTimerText();
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(timerStarted) {
+            SharedPreferences preferences = getSharedPreferences("time", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.putInt("elapsedTime", elapsedTime);
+            editor.putLong("timePassed", System.currentTimeMillis());
+
+            editor.apply();
+        }
     }
 
     void initDialog(){
